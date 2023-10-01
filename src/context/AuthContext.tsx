@@ -7,7 +7,7 @@ export interface AuthContextType {
 }
 
 export const AuthContext = createContext<AuthContextType>({
-    isLoggedIn: true, // Toggle this to understand what the seed context is
+    isLoggedIn: false,
     login: () => {},
     logout: () => {},
 });

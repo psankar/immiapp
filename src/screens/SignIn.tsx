@@ -1,40 +1,45 @@
 import React, { useState, useContext } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
-import AuthContext from '../context/AuthContext';
+import { AuthContext, AuthContextType } from '../context/AuthContext';
 
 const SignIn = () => {
-    const [username, setUsername] = useState('');
+    const [accountHandle, setAccountHandle] = useState('');
     const [password, setPassword] = useState('');
     const [isValid, setIsValid] = useState(false);
     const [error, setError] = useState('');
 
-    const handleUsernameChange = (text: string) => {
-        setUsername(text);
+    const { login } = useContext<AuthContextType>(AuthContext);
+
+    const handleAccountHandleChange = (text: string) => {
+        setAccountHandle(text);
         validateInputs(text, password);
     };
 
     const handlePasswordChange = (text: string) => {
         setPassword(text);
-        validateInputs(username, text);
+        validateInputs(accountHandle, text);
     };
 
-    const validateInputs = (username: string, password: string) => {
-        const usernameRegex = /^[a-zA-Z0-9]+$/;
+    const validateInputs = (accountHandle: string, password: string) => {
+        const accountHandleRegex = /^[a-zA-Z0-9]+$/;
         const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
-        setIsValid(usernameRegex.test(username) && passwordRegex.test(password));
+        setIsValid(accountHandleRegex.test(accountHandle) && passwordRegex.test(password));
     };
 
     const handleSignIn = async () => {
         try {
-            const response = await fetch('/signin', {
+            const response = await fetch('http://localhost:8080/login', {
                 method: 'POST',
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({
+                    account_handle: accountHandle,
+                    password: password
+                }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
             if (response.ok) {
-                // handle successful sign in
+                login();
             } else {
                 setError('Invalid username or password');
             }
@@ -50,9 +55,9 @@ const SignIn = () => {
     return (
         <View>
             <TextInput
-                placeholder="Username"
-                value={username}
-                onChangeText={handleUsernameChange}
+                placeholder="AccountHandle"
+                value={accountHandle}
+                onChangeText={handleAccountHandleChange}
             />
             <TextInput
                 placeholder="Password"
