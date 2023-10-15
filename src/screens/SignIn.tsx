@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, TextInput, Button, Text } from "react-native";
+import { View, TextInput, Button, Text, StyleSheet } from "react-native";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
 
 const SignIn = () => {
@@ -59,26 +59,62 @@ const SignIn = () => {
   };
 
   return (
-    <View>
-      <label>Account Handle</label>
+    <View style={styles.container}>
+      <Text style={styles.label}>Account Handle</Text>
       <TextInput
         aria-label="AccountHandle"
+        style={styles.input}
         placeholder="AccountHandle"
         value={accountHandle}
         onChangeText={handleAccountHandleChange}
       />
-      <label>Password</label>
+      <Text style={styles.label}>Password</Text>
       <TextInput
+        style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={handlePasswordChange}
         secureTextEntry
       />
       <Button title="Sign In" onPress={handleSignIn} disabled={!isValid} />
-      <Text onPress={handleForgotPassword}>Forgot Password?</Text>
-      {error ? <Text>{error}</Text> : null}
+      <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
+        Forgot Password?
+      </Text>
+      {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 20,
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 20,
+    padding: 10,
+    width: "100%",
+  },
+  forgotPassword: {
+    marginTop: 20,
+    color: "blue",
+    textDecorationLine: "underline",
+  },
+  error: {
+    color: "red",
+    marginTop: 20,
+  },
+});
 
 export default SignIn;
