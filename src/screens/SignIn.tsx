@@ -88,9 +88,9 @@ export const SignIn = () => {
     <View style={styles.container}>
       <Text style={styles.label}>Account Handle</Text>
       <TextInput
-        aria-label="AccountHandle"
         style={styles.input}
-        placeholder="AccountHandle"
+        placeholder="handle1"
+        placeholderTextColor="#999"
         value={accountHandle}
         onChangeText={handleAccountHandleChange}
       />
@@ -98,6 +98,7 @@ export const SignIn = () => {
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor="#999"
         value={password}
         onChangeText={handlePasswordChange}
         secureTextEntry
