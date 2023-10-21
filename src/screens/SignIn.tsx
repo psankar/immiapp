@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
+import BASE_URL from "../config";
 
 export const SignIn = () => {
   const [accountHandle, setAccountHandle] = useState("");
@@ -32,13 +33,8 @@ export const SignIn = () => {
   const handleSignIn = async () => {
     setError("");
 
-    if (accountHandle === "guest" && password === "guest") {
-      login();
-      return;
-    }
-
     try {
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         body: JSON.stringify({
           account_handle: accountHandle,
