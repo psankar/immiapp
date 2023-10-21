@@ -8,7 +8,7 @@ const SignIn = () => {
   const [isValid, setIsValid] = useState(false);
   const [error, setError] = useState("");
 
-  const { login } = useContext<AuthContextType>(AuthContext);
+  const { login, isLoggedIn } = useContext<AuthContextType>(AuthContext);
 
   const handleAccountHandleChange = (text: string) => {
     setAccountHandle(text);

@@ -6,19 +6,20 @@ export interface AuthContextType {
   logout: () => void;
 }
 
-export const AuthContext = createContext<AuthContextType>({
+export var AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   login: () => {},
   logout: () => {},
 });
 
-const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+type AuthContextProviderProps = {
+  children: React.ReactNode;
+};
+
+export const AuthProvider = ({ children }: AuthContextProviderProps) => {
+  var [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = () => {
-    console.log("Is login called?");
     setIsLoggedIn(true);
   };
 
@@ -32,5 +33,3 @@ const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
     </AuthContext.Provider>
   );
 };
-
-export default AuthContextProvider;
