@@ -1,13 +1,22 @@
+import axios from "axios";
 import React, { useContext, useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { AuthContext, AuthContextType } from "../context/AuthContext";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import BASE_URL from "../config";
+import { AuthContext, AuthContextType } from "../context/AuthContext";
 
 export const SignIn = () => {
   const [accountHandle, setAccountHandle] = useState("");
   const [password, setPassword] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [error, setError] = useState("");
+  const [isWaiting, setIsWaiting] = useState(false);
 
   const { login, isLoggedIn } = useContext<AuthContextType>(AuthContext);
 
@@ -30,39 +39,50 @@ export const SignIn = () => {
     );
   };
 
-  const handleSignIn = async () => {
+  const handleSignIn = () => {
     setError("");
+    setIsWaiting(true);
 
-    try {
-      const response = await fetch(`${BASE_URL}/login`, {
-        method: "POST",
-        body: JSON.stringify({
-          account_handle: accountHandle,
-          password: password,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+    axios
+      .post(`${BASE_URL}/login`, {
+        account_handle: accountHandle,
+        password: password,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Authentication succeeded");
+          login();
+        } else {
+          console.error(response);
+          setError("Unknown error occurred");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        if (error.response.status === 401) {
+          setError("Wrong username or password");
+        } else if (error.response.status === 400) {
+          setError("Invalid username or password");
+        } else {
+          setError("Network error");
+        }
+      })
+      .finally(() => {
+        setIsWaiting(false);
       });
-      if (response.ok) {
-        console.log("Authentication succeeded");
-        login();
-      } else if (response.status === 401) {
-        setError("Authentication failed");
-      } else if (response.status === 400) {
-        setError("Bad username or password");
-      } else {
-        setError("Unknown error occurred");
-      }
-    } catch (error) {
-      console.error(error);
-      setError("Network error");
-    }
   };
 
   const handleForgotPassword = () => {
     // handle forgot password
   };
+
+  if (isWaiting) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -121,6 +141,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   input: {
     height: 40,
