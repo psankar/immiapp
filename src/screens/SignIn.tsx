@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 import React, { useContext, useState } from "react";
 import {
   ActivityIndicator,
@@ -84,6 +85,8 @@ export const SignIn = () => {
     );
   }
 
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Account Handle</Text>
@@ -108,7 +111,7 @@ export const SignIn = () => {
         disabled={!isValid}
         style={styles.button}
       >
-        <Text style={styles.buttonText}>Sign In</Text>
+        <Text style={styles.buttonText}>{t("sign_in")}</Text>
       </Pressable>
       <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
         Forgot Password?
