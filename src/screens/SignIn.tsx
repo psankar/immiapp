@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
 
-const SignIn = () => {
+export const SignIn = () => {
   const [accountHandle, setAccountHandle] = useState("");
   const [password, setPassword] = useState("");
   const [isValid, setIsValid] = useState(false);
@@ -33,7 +33,6 @@ const SignIn = () => {
     setError("");
 
     if (accountHandle === "guest" && password === "guest") {
-      console.log("allow guest user");
       login();
       return;
     }
@@ -145,5 +144,3 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
-
-export default SignIn;
