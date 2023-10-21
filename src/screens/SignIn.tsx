@@ -1,5 +1,12 @@
 import React, { useState, useContext } from "react";
-import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  Text,
+  StyleSheet,
+  Pressable,
+} from "react-native";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
 
 const SignIn = () => {
@@ -45,6 +52,8 @@ const SignIn = () => {
         console.log("Authentication succeeded");
       } else if (response.status === 401) {
         setError("Authentication failed");
+      } else if (response.status === 400) {
+        setError("Bad username or password");
       } else {
         setError("Unknown error occurred");
       }
@@ -76,7 +85,13 @@ const SignIn = () => {
         onChangeText={handlePasswordChange}
         secureTextEntry
       />
-      <Button title="Sign In" onPress={handleSignIn} disabled={!isValid} />
+      <Pressable
+        onPress={handleSignIn}
+        disabled={!isValid}
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Sign In</Text>
+      </Pressable>
       <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
         Forgot Password?
       </Text>
@@ -86,6 +101,18 @@ const SignIn = () => {
 };
 
 const styles = StyleSheet.create({
+  button: {
+    backgroundColor: "#007AFF",
+    borderRadius: 5,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
   container: {
     flex: 1,
     justifyContent: "center",
