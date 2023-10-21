@@ -1,12 +1,5 @@
-import React, { useState, useContext } from "react";
-import {
-  View,
-  TextInput,
-  Button,
-  Text,
-  StyleSheet,
-  Pressable,
-} from "react-native";
+import React, { useContext, useState } from "react";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
 
 const SignIn = () => {
@@ -28,6 +21,7 @@ const SignIn = () => {
   };
 
   const validateInputs = (accountHandle: string, password: string) => {
+    // TODO: These regexes are not the same as the ones in the backend
     const accountHandleRegex = /^[a-z0-9]*[a-z][a-z0-9]*$/;
     const passwordRegex = /^\S{3,32}$/;
     setIsValid(
@@ -50,6 +44,7 @@ const SignIn = () => {
       });
       if (response.ok) {
         console.log("Authentication succeeded");
+        login();
       } else if (response.status === 401) {
         setError("Authentication failed");
       } else if (response.status === 400) {
