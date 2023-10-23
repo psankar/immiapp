@@ -32,9 +32,8 @@ export const SignIn = () => {
   };
 
   const validateInputs = (accountHandle: string, password: string) => {
-    // TODO: These regexes are not the same as the ones in the backend
     const accountHandleRegex = /^[a-z0-9]*[a-z][a-z0-9]*$/;
-    const passwordRegex = /^\S{3,32}$/;
+    const passwordRegex = /^\S{8,32}$/;
     setIsValid(
       accountHandleRegex.test(accountHandle) && passwordRegex.test(password)
     );
