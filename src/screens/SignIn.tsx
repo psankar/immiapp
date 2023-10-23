@@ -55,7 +55,7 @@ export const SignIn = () => {
           login();
         } else {
           console.error(response);
-          setError("Unknown error occurred");
+          setError(t("unknown_error"));
         }
       })
       .catch((error) => {
@@ -74,7 +74,7 @@ export const SignIn = () => {
           }
         }
         console.error(error);
-        setError("Unknown error occurred");
+        setError(t("unknown_error"));
       })
       .finally(() => {
         setIsWaiting(false);
@@ -115,7 +115,7 @@ export const SignIn = () => {
       <Pressable
         onPress={handleSignIn}
         disabled={!isValid}
-        style={styles.button}
+        style={isValid ? styles.signInEnabled : styles.signInDisabled}
       >
         <Text style={styles.buttonText}>{t("sign_in")}</Text>
       </Pressable>
@@ -128,8 +128,15 @@ export const SignIn = () => {
 };
 
 const styles = StyleSheet.create({
-  button: {
+  signInEnabled: {
     backgroundColor: "#007AFF",
+    borderRadius: 5,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  signInDisabled: {
+    backgroundColor: "#999",
     borderRadius: 5,
     padding: 10,
     alignItems: "center",
