@@ -50,8 +50,42 @@ export const SignIn = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          console.debug("Authentication succeeded");
-          login();
+          console.log("Authentication succeeded", response);
+
+          // TODO: "VALID" Should come from a const
+          if (response.data.account_state !== "VALID") {
+            setError(t("account_invalid_state"));
+            return;
+          }
+
+          // TODO: Need to await until the next axios returns, so that
+          // the finally block will show the spinner until then
+          axios
+            .post(
+              `${BASE_URL}/twofa/verify`,
+              {
+                code: "TODO: Yet to implement 2fa support",
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${response.data.login_token}`,
+                },
+              }
+            )
+            .then((response) => {
+              console.log("2FA token response: " + response.data);
+              login();
+            })
+            .catch((error) => {
+              if (axios.isAxiosError(error)) {
+                if (error.code === "ERR_NETWORK") {
+                  setError("Network error");
+                  return;
+                }
+              }
+              console.error(error);
+              setError(t("unknown_error"));
+            });
         } else {
           console.error(response);
           setError(t("unknown_error"));
