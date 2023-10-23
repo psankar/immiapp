@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useTranslation } from "react-i18next";
 import React, { useContext, useState } from "react";
 import {
   ActivityIndicator,
@@ -11,6 +10,7 @@ import {
 } from "react-native";
 import BASE_URL from "../config";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
+import t from "../localization/i18n";
 
 export const SignIn = () => {
   const [accountHandle, setAccountHandle] = useState("");
@@ -51,7 +51,7 @@ export const SignIn = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log("Authentication succeeded");
+          console.debug("Authentication succeeded");
           login();
         } else {
           console.error(response);
@@ -59,14 +59,22 @@ export const SignIn = () => {
         }
       })
       .catch((error) => {
-        console.error(error);
-        if (error.response.status === 401) {
-          setError("Wrong username or password");
-        } else if (error.response.status === 400) {
-          setError("Invalid username or password");
-        } else {
-          setError("Network error");
+        if (axios.isAxiosError(error)) {
+          if (error.code === "ERR_NETWORK") {
+            setError("Network error");
+            return;
+          }
+
+          if (error.response?.status === 401) {
+            setError("Wrong username or password");
+            return;
+          } else if (error.response?.status === 400) {
+            setError("Improper username or password");
+            return;
+          }
         }
+        console.error(error);
+        setError("Unknown error occurred");
       })
       .finally(() => {
         setIsWaiting(false);
@@ -85,11 +93,9 @@ export const SignIn = () => {
     );
   }
 
-  const { t } = useTranslation();
-
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Account Handle</Text>
+      <Text style={styles.label}>{t("account_handle")}</Text>
       <TextInput
         style={styles.input}
         placeholder="handle1"
@@ -97,7 +103,7 @@ export const SignIn = () => {
         value={accountHandle}
         onChangeText={handleAccountHandleChange}
       />
-      <Text style={styles.label}>Password</Text>
+      <Text style={styles.label}>{t("password")}</Text>
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -114,7 +120,7 @@ export const SignIn = () => {
         <Text style={styles.buttonText}>{t("sign_in")}</Text>
       </Pressable>
       <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
-        Forgot Password?
+        {t("forgot_password")}
       </Text>
       {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
