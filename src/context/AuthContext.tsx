@@ -2,13 +2,15 @@ import React, { createContext, useState } from "react";
 
 export interface AuthContextType {
   isLoggedIn: boolean;
-  login: () => void;
+  authToken: string;
+  login: (_authToken: string, _refreshToken: string) => void;
   logout: () => void;
 }
 
 export var AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
-  login: () => {},
+  authToken: "",
+  login: (_authToken: string, _refreshToken: string) => {},
   logout: () => {},
 });
 
@@ -18,17 +20,22 @@ type AuthContextProviderProps = {
 
 export const AuthProvider = ({ children }: AuthContextProviderProps) => {
   var [isLoggedIn, setIsLoggedIn] = useState(false);
+  var [authToken, setAuthToken] = useState("");
 
-  const login = () => {
+  const login = (authToken: string, refreshToken: string) => {
+    localStorage.setItem("refreshToken", refreshToken);
+    setAuthToken(authToken);
     setIsLoggedIn(true);
   };
 
   const logout = () => {
+    localStorage.removeItem("refreshToken");
+    setAuthToken("");
     setIsLoggedIn(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, authToken, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

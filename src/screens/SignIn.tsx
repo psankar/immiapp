@@ -71,14 +71,14 @@ export const SignIn = () => {
               }
             )
             .then((response) => {
-              console.log("2FA token response: " + response.data);
               let authToken = response.data.auth_token;
               let refreshToken = response.data.refresh_token;
-              console.log(
-                "Auth token: " + authToken,
-                "Refresh token: " + refreshToken
-              );
-              login();
+              if (authToken && refreshToken) {
+                login(authToken, refreshToken);
+                return;
+              }
+              console.log(response.data);
+              setError(t("unknown_error"));
             })
             .catch((error) => {
               if (axios.isAxiosError(error)) {
