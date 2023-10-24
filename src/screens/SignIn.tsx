@@ -48,7 +48,7 @@ export const SignIn = () => {
         account_handle: accountHandle,
         password: password,
       })
-      .then((response) => {
+      .then(async (response) => {
         if (response.status === 200) {
           console.log("Authentication succeeded", response);
 
@@ -58,9 +58,7 @@ export const SignIn = () => {
             return;
           }
 
-          // TODO: Need to await until the next axios returns, so that
-          // the finally block will show the spinner until then
-          axios
+          await axios
             .post(
               `${BASE_URL}/twofa/verify`,
               {
@@ -74,6 +72,12 @@ export const SignIn = () => {
             )
             .then((response) => {
               console.log("2FA token response: " + response.data);
+              let authToken = response.data.auth_token;
+              let refreshToken = response.data.refresh_token;
+              console.log(
+                "Auth token: " + authToken,
+                "Refresh token: " + refreshToken
+              );
               login();
             })
             .catch((error) => {
