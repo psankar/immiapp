@@ -9,41 +9,54 @@ import {
   View,
 } from "react-native";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
+import axios from "axios";
+import BASE_URL from "../config";
 
 export const MyLists = () => {
   const [lists, setLists] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isWaiting, setIsWaiting] = useState(true);
   const navigation = useNavigation();
 
-  const { logout } = useContext<AuthContextType>(AuthContext);
+  const { logout, authToken } = useContext<AuthContextType>(AuthContext);
+
+  const fetchLists = async () => {
+    axios
+      .get(`${BASE_URL}/lists`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Lists fetched", response);
+          setLists(response.data);
+        } else {
+          console.log("Lists fetch failed", response);
+        }
+      })
+      .catch((error) => {
+        console.log("Lists fetch failed", error);
+      })
+      .finally(() => {
+        setIsWaiting(false);
+      });
+  };
 
   useEffect(() => {
-    const fetchLists = async () => {
-      try {
-        const data: any = [
-          { ListID: 1, ListName: "List 1" },
-          { ListID: 2, ListName: "List 2" },
-        ];
-        setLists(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchLists();
   }, []);
 
   const renderItem = ({
     item,
   }: {
-    item: { ListID: number; ListName: string };
+    item: { handle: string; display_name: string };
   }) => (
     <View style={styles.listItem}>
-      <Text style={styles.listItemText}>{item.ListName}</Text>
+      <Text style={styles.listItemText}>{item.display_name}</Text>
     </View>
   );
 
-  if (isLoading) {
+  if (isWaiting) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -56,7 +69,7 @@ export const MyLists = () => {
       <FlatList
         data={lists}
         renderItem={renderItem}
-        keyExtractor={(item) => item.ListID.toString()}
+        keyExtractor={(item) => item.handle}
       />
       <Pressable onPress={logout} style={styles.signoutButton}>
         <Text style={styles.signoutButtonText}>Signout</Text>
