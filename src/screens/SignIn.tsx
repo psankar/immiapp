@@ -19,7 +19,7 @@ export const SignIn = () => {
   const [error, setError] = useState("");
   const [isWaiting, setIsWaiting] = useState(false);
 
-  const { login, isLoggedIn } = useContext<AuthContextType>(AuthContext);
+  const { login } = useContext<AuthContextType>(AuthContext);
 
   const handleAccountHandleChange = (text: string) => {
     setAccountHandle(text);

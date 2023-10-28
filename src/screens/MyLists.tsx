@@ -9,7 +9,6 @@ import {
   View,
 } from "react-native";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
-import axios from "axios";
 import BASE_URL from "../config";
 
 export const MyLists = () => {
@@ -17,10 +16,11 @@ export const MyLists = () => {
   const [isWaiting, setIsWaiting] = useState(true);
   const navigation = useNavigation();
 
-  const { logout, authToken } = useContext<AuthContextType>(AuthContext);
+  const { logout, authToken, saxios } =
+    useContext<AuthContextType>(AuthContext);
 
   const fetchLists = async () => {
-    axios
+    saxios
       .get(`${BASE_URL}/lists`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
