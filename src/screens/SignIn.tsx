@@ -83,7 +83,7 @@ export const SignIn = () => {
             .catch((error) => {
               if (axios.isAxiosError(error)) {
                 if (error.code === "ERR_NETWORK") {
-                  setError("Network error");
+                  setError(t("network_error"));
                   return;
                 }
               }
@@ -98,15 +98,15 @@ export const SignIn = () => {
       .catch((error) => {
         if (axios.isAxiosError(error)) {
           if (error.code === "ERR_NETWORK") {
-            setError("Network error");
+            setError(t("network_error"));
             return;
           }
 
           if (error.response?.status === 401) {
-            setError("Wrong username or password");
+            setError(t("wrong_credentials"));
             return;
           } else if (error.response?.status === 400) {
-            setError("Improper username or password");
+            setError(t("invalid_credentials"));
             return;
           }
         }
