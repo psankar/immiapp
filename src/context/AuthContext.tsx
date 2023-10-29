@@ -54,10 +54,8 @@ export const AuthProvider = ({ children }: AuthContextProviderProps) => {
         // 452 status code is for expired auth_token
         if (error.response?.status === 452) {
           try {
-            const { data } = await axios.get(`${BASE_URL}/refresh-token`, {
-              headers: {
-                Authorization: `Bearer ${refreshToken}`,
-              },
+            const { data } = await axios.post(`${BASE_URL}/refresh-token`, {
+              refresh_token: refreshToken,
             });
 
             const newAuthToken = data.auth_token;
@@ -77,8 +75,10 @@ export const AuthProvider = ({ children }: AuthContextProviderProps) => {
               }
             );
 
-            // retry the original request
-            return saxios(error.response.request);
+            // retry the original request that got 452
+            const originalRequest = error.config;
+            originalRequest.headers.Authorization = `Bearer ${newAuthToken}`;
+            return saxios(originalRequest);
           } catch (err) {
             // handle 4xx/5xx response for refresh-token call
             console.error("auth_token could not be refreshed", err);
