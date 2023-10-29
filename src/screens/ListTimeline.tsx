@@ -12,16 +12,25 @@ const ListTimeline = ({ route }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       console.log("listTimeline", displayName, handle);
-      try {
-        const response = await saxios.post("/read-list", {
-          list_handle: handle,
+      saxios
+        .post(
+          "/read-list",
+          {
+            list_handle: handle,
+          },
+          {
+            onDownloadProgress: (progressEvent) => {
+              const newChunk = progressEvent.event.target.response;
+              if (newChunk) {
+                console.log(newChunk);
+                console.log(typeof newChunk);
+              }
+            },
+          }
+        )
+        .catch((error) => {
+          console.log(error);
         });
-        response.data.on("data", (chunk: any) => {
-          console.log(chunk.toString());
-        });
-      } catch (error) {
-        console.error(error);
-      }
     };
     fetchData();
   }, []);
