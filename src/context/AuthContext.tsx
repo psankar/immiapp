@@ -5,15 +5,15 @@ import BASE_URL from "../config";
 export interface AuthContextType {
   isLoggedIn: boolean;
   authToken: string;
-  saxios: AxiosInstance;
   login: (_authToken: string, _refreshToken: string) => void;
   logout: () => void;
 }
 
+export var saxios: AxiosInstance = axios.create({});
+
 export var AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   authToken: "",
-  saxios: axios.create(),
   login: (_authToken: string, _refreshToken: string) => {},
   logout: () => {},
 });
@@ -25,13 +25,12 @@ type AuthContextProviderProps = {
 export const AuthProvider = ({ children }: AuthContextProviderProps) => {
   var [isLoggedIn, setIsLoggedIn] = useState(false);
   var [authToken, setAuthToken] = useState("");
-  var [saxios, setSaxios] = useState<AxiosInstance>(axios.create());
 
   const login = (authToken: string, refreshToken: string) => {
     localStorage.setItem("refreshToken", refreshToken);
     setAuthToken(authToken);
 
-    var saxios = axios.create({
+    saxios = axios.create({
       baseURL: BASE_URL,
     });
 
@@ -92,21 +91,17 @@ export const AuthProvider = ({ children }: AuthContextProviderProps) => {
       }
     );
 
-    setSaxios(saxios);
     setIsLoggedIn(true);
   };
 
   const logout = () => {
     localStorage.removeItem("refreshToken");
     setAuthToken("");
-    setSaxios(axios.create());
     setIsLoggedIn(false);
   };
 
   return (
-    <AuthContext.Provider
-      value={{ isLoggedIn, authToken, login, logout, saxios }}
-    >
+    <AuthContext.Provider value={{ isLoggedIn, authToken, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

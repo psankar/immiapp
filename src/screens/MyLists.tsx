@@ -8,16 +8,15 @@ import {
   Text,
   View,
 } from "react-native";
-import { AuthContext, AuthContextType } from "../context/AuthContext";
 import BASE_URL from "../config";
+import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
 
 export const MyLists = () => {
   const [lists, setLists] = useState([]);
   const [isWaiting, setIsWaiting] = useState(true);
   const navigation = useNavigation();
 
-  const { logout, authToken, saxios } =
-    useContext<AuthContextType>(AuthContext);
+  const { logout, authToken } = useContext<AuthContextType>(AuthContext);
 
   const fetchLists = async () => {
     saxios
@@ -28,7 +27,6 @@ export const MyLists = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log("Lists fetched", response);
           setLists(response.data);
         } else {
           console.log("Lists fetch failed", response);
