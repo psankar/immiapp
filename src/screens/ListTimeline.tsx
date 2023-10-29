@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { saxios } from "../context/AuthContext";
 
-const ListTimeline = () => {
-  const [displayName, setDisplayName] = useState("");
-  const [handle, setHandle] = useState("");
+// TODO: Use more precise types below
+type Props = {
+  route: any;
+  navigation: any;
+};
 
+const ListTimeline = ({ route }: Props) => {
+  const { handle, displayName } = route.params;
   useEffect(() => {
     const fetchData = async () => {
       console.log("listTimeline", displayName, handle);

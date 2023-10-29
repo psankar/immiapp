@@ -20,7 +20,11 @@ export const AppNav = () => {
         ) : (
           <Stack.Screen name={t("sign_in")} component={SignIn} />
         )}
-        <Stack.Screen name={"list_timeline"} component={ListTimeline} />
+        <Stack.Screen
+          name={"list_timeline"}
+          component={ListTimeline}
+          initialParams={{ displayName: "", handle: "" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

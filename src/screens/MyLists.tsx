@@ -57,7 +57,14 @@ export const MyLists = ({ navigation }: MyListsProps) => {
     item: { handle: string; display_name: string };
   }) => (
     <View style={styles.listItem}>
-      <Pressable onPress={() => navigation.navigate("list_timeline", {})}>
+      <Pressable
+        onPress={() =>
+          navigation.navigate("list_timeline", {
+            displayName: item.display_name,
+            handle: item.handle,
+          })
+        }
+      >
         <Text style={styles.listItemText}>{item.handle}</Text>
       </Pressable>
       <Text style={styles.listItemText}>{item.display_name}</Text>
