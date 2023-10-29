@@ -1,12 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { saxios } from "../context/AuthContext";
 
-interface ListTimelineProps {
-  displayName: string;
-  handle: string;
-}
+const ListTimeline = () => {
+  const [displayName, setDisplayName] = useState("");
+  const [handle, setHandle] = useState("");
 
-const ListTimeline: React.FC<ListTimelineProps> = ({ displayName, handle }) => {
   useEffect(() => {
     const fetchData = async () => {
       console.log("listTimeline", displayName, handle);

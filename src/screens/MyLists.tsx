@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -13,12 +12,16 @@ import BASE_URL from "../config";
 import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
 
-export const MyLists = () => {
+import { NavigationProp } from "@react-navigation/native";
+
+type MyListsProps = {
+  navigation: NavigationProp<Record<string, object>>;
+};
+
+export const MyLists = ({ navigation }: MyListsProps) => {
   const [lists, setLists] = useState([]);
   const [isWaiting, setIsWaiting] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const navigation = useNavigation();
 
   const { logout, authToken } = useContext<AuthContextType>(AuthContext);
 
@@ -54,6 +57,9 @@ export const MyLists = () => {
     item: { handle: string; display_name: string };
   }) => (
     <View style={styles.listItem}>
+      <Pressable onPress={() => navigation.navigate("list_timeline", {})}>
+        <Text style={styles.listItemText}>{item.handle}</Text>
+      </Pressable>
       <Text style={styles.listItemText}>{item.display_name}</Text>
     </View>
   );
