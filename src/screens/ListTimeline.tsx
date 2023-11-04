@@ -15,7 +15,8 @@ const ListTimeline = ({ route, navigation }: Props) => {
   const { handle, displayName } = route.params;
   var [immiIDs, setImmiIDs] = useState<string[]>([]);
 
-  // TODO: Use ImmiInfo from the documented API schema instead of "any" below
+  // TODO: Use ImmiInfo type from documented API schema instead of "any" below
+  // TODO: The immiInfoCache should be persisted and size limited
   var [immiInfoCache, setImmiInfoCache] = useState<Record<string, any>>({});
 
   const { authToken } = useContext<AuthContextType>(AuthContext);
