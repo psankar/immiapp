@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
 import BASE_URL from "../config";
+import { View, FlatList, Text } from "react-native";
 
 // TODO: Use more precise types below
 type Props = {
@@ -11,6 +12,9 @@ type Props = {
 const ListTimeline = ({ route }: Props) => {
   const { handle, displayName } = route.params;
   var [immiIDs, setImmiIDs] = useState<string[]>([]);
+  var [immiInfoCache, setImmiInfoCache] = useState<Map<string, any>>(
+    new Map<string, any>()
+  );
 
   const { authToken } = useContext<AuthContextType>(AuthContext);
 
@@ -27,7 +31,8 @@ const ListTimeline = ({ route }: Props) => {
         });
 
         if (!response.body) {
-          throw new Error("Response body is null");
+          // Handle 452 for refresh_token
+          throw new Error("Go back to the home page and try again.");
         }
 
         const reader = response.body.getReader();
@@ -43,6 +48,7 @@ const ListTimeline = ({ route }: Props) => {
             immiIDs = l;
           }
           console.log(immiIDs, newData);
+          setImmiIDs(immiIDs);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -51,7 +57,45 @@ const ListTimeline = ({ route }: Props) => {
     fetchData();
   }, []);
 
-  return <div>{displayName}</div>;
+  const fetchImmiInfo = async (immiID: string) => {
+    console.log("fetching ImmiInfo for", immiID);
+    try {
+      const response = await saxios.get(`/immis/${immiID}`);
+      const immiInfo: any = response.data;
+      setImmiInfoCache((prevCache) => ({
+        ...prevCache,
+        [immiID]: immiInfo,
+      }));
+    } catch (error) {
+      console.error("Error fetching immiInfo:", error);
+    }
+  };
+
+  const renderImmiID = ({ item }: { item: string }) => {
+    const immiInfo = immiInfoCache.get(item);
+    if (!immiInfo) {
+      console.log("Triggering fetchImmiInfo for", item);
+      fetchImmiInfo(item);
+      return null;
+    }
+    return (
+      <View>
+        <Text>{immiInfo.body}</Text>
+        <Text>{immiInfo.time}</Text>
+      </View>
+    );
+  };
+
+  return (
+    <View>
+      <Text>{displayName}</Text>
+      <FlatList
+        data={immiIDs}
+        renderItem={renderImmiID}
+        keyExtractor={(item) => item}
+      />
+    </View>
+  );
 };
 
 export default ListTimeline;
