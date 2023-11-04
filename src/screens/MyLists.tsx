@@ -23,13 +23,13 @@ export const MyLists = ({ navigation }: MyListsProps) => {
   const [isWaiting, setIsWaiting] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { logout, authToken } = useContext<AuthContextType>(AuthContext);
+  const { logout } = useContext<AuthContextType>(AuthContext);
 
   const fetchLists = async () => {
     saxios
       .get(`${BASE_URL}/lists`, {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       })
       .then((response) => {

@@ -4,18 +4,18 @@ import BASE_URL from "../config";
 
 export interface AuthContextType {
   isLoggedIn: boolean;
-  authToken: string;
   login: (_authToken: string, _refreshToken: string) => void;
   logout: () => void;
+  refreshAuthToken: () => void;
 }
 
 export var saxios: AxiosInstance = axios.create({});
 
 export var AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
-  authToken: "",
   login: (_authToken: string, _refreshToken: string) => {},
   logout: () => {},
+  refreshAuthToken: () => {},
 });
 
 type AuthContextProviderProps = {
@@ -24,18 +24,18 @@ type AuthContextProviderProps = {
 
 export const AuthProvider = ({ children }: AuthContextProviderProps) => {
   var [isLoggedIn, setIsLoggedIn] = useState(false);
-  var [authToken, setAuthToken] = useState("");
 
   const login = (authToken: string, refreshToken: string) => {
     localStorage.setItem("refreshToken", refreshToken);
-    setAuthToken(authToken);
+    localStorage.setItem("authToken", authToken);
 
     saxios = axios.create({
       baseURL: BASE_URL,
     });
 
-    var reqInterceptor = saxios.interceptors.request.use(
+    saxios.interceptors.request.use(
       (config) => {
+        authToken = localStorage.getItem("authToken") || "";
         config.headers.Authorization = `Bearer ${authToken}`;
         return config;
       },
@@ -54,30 +54,13 @@ export const AuthProvider = ({ children }: AuthContextProviderProps) => {
         // 452 status code is for expired auth_token
         if (error.response?.status === 452) {
           try {
-            const { data } = await axios.post(`${BASE_URL}/refresh-token`, {
-              refresh_token: refreshToken,
-            });
-
-            const newAuthToken = data.auth_token;
-            setAuthToken(newAuthToken);
-
-            // remove the old request interceptor
-            saxios.interceptors.request.eject(reqInterceptor);
-
-            // add a new request interceptor with the new auth_token
-            reqInterceptor = saxios.interceptors.request.use(
-              (config) => {
-                config.headers.Authorization = `Bearer ${newAuthToken}`;
-                return config;
-              },
-              (error) => {
-                return Promise.reject(error);
-              }
-            );
+            await refreshAuthToken();
 
             // retry the original request that got 452
             const originalRequest = error.config;
-            originalRequest.headers.Authorization = `Bearer ${newAuthToken}`;
+            originalRequest.headers.Authorization = `Bearer ${localStorage.getItem(
+              "authToken"
+            )}`;
             return saxios(originalRequest);
           } catch (err) {
             // handle 4xx/5xx response for refresh-token call
@@ -94,14 +77,25 @@ export const AuthProvider = ({ children }: AuthContextProviderProps) => {
     setIsLoggedIn(true);
   };
 
+  const refreshAuthToken = async () => {
+    const { data } = await axios.post(`${BASE_URL}/refresh-token`, {
+      refresh_token: localStorage.getItem("refreshToken"),
+    });
+
+    const newAuthToken = data.auth_token;
+    localStorage.setItem("authToken", newAuthToken);
+  };
+
   const logout = () => {
     localStorage.removeItem("refreshToken");
-    setAuthToken("");
+    localStorage.removeItem("authToken");
     setIsLoggedIn(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, authToken, login, logout }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, refreshAuthToken, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -13,31 +13,38 @@ type Props = {
 
 const ListTimeline = ({ route, navigation }: Props) => {
   const { handle, displayName } = route.params;
+  const { refreshAuthToken } = useContext<AuthContextType>(AuthContext);
   var [immiIDs, setImmiIDs] = useState<string[]>([]);
 
   // TODO: Use ImmiInfo type from documented API schema instead of "any" below
   // TODO: The immiInfoCache should be persisted and size limited
   var [immiInfoCache, setImmiInfoCache] = useState<Record<string, any>>({});
 
-  const { authToken } = useContext<AuthContextType>(AuthContext);
-
   useEffect(() => {
     let isMounted = true;
     navigation.setOptions({ title: displayName || t("list_timeline") });
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/read-list`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            "Content-Type": "text/event-stream",
-          },
-          body: JSON.stringify({ list_handle: handle }),
-        });
+        let response: Response;
+        while (true) {
+          response = await fetch(`${BASE_URL}/read-list`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+              "Content-Type": "text/event-stream",
+            },
+            body: JSON.stringify({ list_handle: handle }),
+          });
+
+          if (response.status === 452) {
+            refreshAuthToken();
+            continue;
+          }
+          break;
+        }
 
         if (!response.body) {
-          // TODO: Handle 452 for refresh_token
-          throw new Error("Go back to the home page and try again.");
+          throw new Error("No response body");
         }
 
         const reader = response.body.getReader();
