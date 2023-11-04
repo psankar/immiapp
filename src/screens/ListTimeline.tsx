@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
 import BASE_URL from "../config";
-import { View, FlatList, Text } from "react-native";
+import { View, FlatList, StyleSheet, Text } from "react-native";
 
 // TODO: Use more precise types below
 type Props = {
@@ -12,6 +12,8 @@ type Props = {
 const ListTimeline = ({ route }: Props) => {
   const { handle, displayName } = route.params;
   var [immiIDs, setImmiIDs] = useState<string[]>([]);
+
+  // TODO: Use ImmiInfo from the documented API schema instead of "any" below
   var [immiInfoCache, setImmiInfoCache] = useState<Record<string, any>>({});
 
   const { authToken } = useContext<AuthContextType>(AuthContext);
@@ -78,9 +80,9 @@ const ListTimeline = ({ route }: Props) => {
     }
 
     return (
-      <View>
-        <Text>{immiInfo.body}</Text>
-        <Text>{immiInfo.time}</Text>
+      <View style={styles.immiContainer}>
+        <Text style={styles.immiBody}>{immiInfo.body}</Text>
+        <Text style={styles.immiTime}>{immiInfo.time}</Text>
       </View>
     );
   };
@@ -96,5 +98,22 @@ const ListTimeline = ({ route }: Props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  immiContainer: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  immiBody: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  immiTime: {
+    fontSize: 12,
+    color: "#666",
+  },
+});
 
 export default ListTimeline;
