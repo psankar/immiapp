@@ -4,6 +4,7 @@ export default {
   change_language: "Change Language",
   forgot_password: "Forgot Password",
   invalid_credentials: "Invalid Account Handle / Password",
+  list_timeline: "List Timeline",
   lists_fetch_failed: "Failed to fetch lists",
   my_lists: "My Lists",
   network_error: "Network Error",

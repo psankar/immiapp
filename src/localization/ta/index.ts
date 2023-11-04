@@ -4,6 +4,7 @@ export default {
   change_language: "Change Language",
   forgot_password: "கடவுச்சொல் மறந்ததோ ?",
   invalid_credentials: "பிழையான பயனர்கணக்கு / கடவுச்சொல் ",
+  list_timeline: "பட்டியல் நேரக்கோடு",
   lists_fetch_failed: "பட்டியல்களைப் பெறுவதில் சிக்கல்",
   my_lists: "என் பட்டியல்கள்",
   network_error: "இணைப்பில் சிக்கல்",

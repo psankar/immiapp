@@ -1,15 +1,17 @@
+import { NavigationProp } from "@react-navigation/native";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import BASE_URL from "../config";
-import { View, FlatList, StyleSheet, Text } from "react-native";
+import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
+import t from "../localization/i18n";
 
 // TODO: Use more precise types below
 type Props = {
   route: any;
-  navigation: any;
+  navigation: NavigationProp<Record<string, object>>;
 };
 
-const ListTimeline = ({ route }: Props) => {
+const ListTimeline = ({ route, navigation }: Props) => {
   const { handle, displayName } = route.params;
   var [immiIDs, setImmiIDs] = useState<string[]>([]);
 
@@ -19,6 +21,7 @@ const ListTimeline = ({ route }: Props) => {
   const { authToken } = useContext<AuthContextType>(AuthContext);
 
   useEffect(() => {
+    navigation.setOptions({ title: displayName || t("list_timeline") });
     const fetchData = async () => {
       try {
         const response = await fetch(`${BASE_URL}/read-list`, {
@@ -89,7 +92,6 @@ const ListTimeline = ({ route }: Props) => {
 
   return (
     <View>
-      <Text>{displayName}</Text>
       <FlatList
         data={immiIDs}
         renderItem={renderImmiID}
