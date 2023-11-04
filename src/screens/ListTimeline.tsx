@@ -12,9 +12,7 @@ type Props = {
 const ListTimeline = ({ route }: Props) => {
   const { handle, displayName } = route.params;
   var [immiIDs, setImmiIDs] = useState<string[]>([]);
-  var [immiInfoCache, setImmiInfoCache] = useState<Map<string, any>>(
-    new Map<string, any>()
-  );
+  var [immiInfoCache, setImmiInfoCache] = useState<Record<string, any>>({});
 
   const { authToken } = useContext<AuthContextType>(AuthContext);
 
@@ -31,7 +29,7 @@ const ListTimeline = ({ route }: Props) => {
         });
 
         if (!response.body) {
-          // Handle 452 for refresh_token
+          // TODO: Handle 452 for refresh_token
           throw new Error("Go back to the home page and try again.");
         }
 
@@ -58,26 +56,27 @@ const ListTimeline = ({ route }: Props) => {
   }, []);
 
   const fetchImmiInfo = async (immiID: string) => {
-    console.log("fetching ImmiInfo for", immiID);
     try {
-      const response = await saxios.get(`/immis/${immiID}`);
+      const response = await saxios.get(`/immi/${immiID}`);
       const immiInfo: any = response.data;
       setImmiInfoCache((prevCache) => ({
         ...prevCache,
         [immiID]: immiInfo,
       }));
     } catch (error) {
+      // TODO: Handle errors better here and for
+      // all cases (invalid immiID, deleted immiID, etc.)
       console.error("Error fetching immiInfo:", error);
     }
   };
 
   const renderImmiID = ({ item }: { item: string }) => {
-    const immiInfo = immiInfoCache.get(item);
+    const immiInfo = immiInfoCache[item];
     if (!immiInfo) {
-      console.log("Triggering fetchImmiInfo for", item);
       fetchImmiInfo(item);
       return null;
     }
+
     return (
       <View>
         <Text>{immiInfo.body}</Text>
