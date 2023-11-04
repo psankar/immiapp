@@ -21,6 +21,7 @@ const ListTimeline = ({ route, navigation }: Props) => {
   const { authToken } = useContext<AuthContextType>(AuthContext);
 
   useEffect(() => {
+    let isMounted = true;
     navigation.setOptions({ title: displayName || t("list_timeline") });
     const fetchData = async () => {
       try {
@@ -41,7 +42,7 @@ const ListTimeline = ({ route, navigation }: Props) => {
         const reader = response.body.getReader();
         const decoder = new TextDecoder("utf-8");
 
-        while (true) {
+        while (isMounted) {
           const { done, value } = await reader.read();
           if (done) break;
           const text = decoder.decode(value, { stream: true });
@@ -57,7 +58,12 @@ const ListTimeline = ({ route, navigation }: Props) => {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const fetchImmiInfo = async (immiID: string) => {
