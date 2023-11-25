@@ -11,6 +11,7 @@ import {
 import BASE_URL from "../config";
 import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
+import { Ionicons } from "@expo/vector-icons";
 
 import { NavigationProp } from "@react-navigation/native";
 
@@ -57,6 +58,7 @@ export const MyLists = ({ navigation }: MyListsProps) => {
     item: { handle: string; display_name: string };
   }) => (
     <View style={styles.listItem}>
+      <Text style={styles.listItemText}>{item.display_name}</Text>
       <Pressable
         onPress={() =>
           navigation.navigate("list_timeline", {
@@ -65,9 +67,8 @@ export const MyLists = ({ navigation }: MyListsProps) => {
           })
         }
       >
-        <Text style={styles.listItemText}>{item.handle}</Text>
+        <Ionicons name="arrow-forward" size={24} color="black" />
       </Pressable>
-      <Text style={styles.listItemText}>{item.display_name}</Text>
     </View>
   );
 
