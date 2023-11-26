@@ -1,12 +1,12 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { Pressable, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons"; // Import the Ionicons component
+import { Pressable, Text, TextInput, View, StyleSheet } from "react-native";
 
 const Compose = () => {
   const [text, setText] = useState("");
 
-  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(event.target.value);
+  const handleTextChange = (text: string) => {
+    setText(text);
   };
 
   const handlePublish = () => {
@@ -19,18 +19,60 @@ const Compose = () => {
   };
 
   return (
-    <View>
-      <textarea value={text} onChange={handleTextChange} rows={10} cols={50} />
-      <Pressable onPress={handlePublish}>
-        <Text>Publish</Text>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.textInput}
+        value={text}
+        onChangeText={handleTextChange}
+        multiline={true}
+        numberOfLines={10}
+        placeholder="Say something nice..."
+      />
+      <Pressable
+        style={[styles.button, styles.publishButton]}
+        onPress={handlePublish}
+      >
+        <Text style={styles.buttonText}>Publish</Text>
       </Pressable>
-      <Pressable onPress={handleReset}>
-        <Text>Reset</Text>
+      <Pressable
+        style={[styles.button, styles.resetButton]}
+        onPress={handleReset}
+      >
+        <Text style={styles.buttonText}>Reset</Text>
       </Pressable>
       <Ionicons name="camera" size={24} color="black" />{" "}
-      {/* Use the Ionicons component */}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  textInput: {
+    height: 200,
+    borderWidth: 1,
+    borderColor: "gray",
+    marginBottom: 16,
+    padding: 8,
+  },
+  button: {
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    alignSelf: "center",
+  },
+  publishButton: {
+    backgroundColor: "blue",
+  },
+  resetButton: {
+    backgroundColor: "gray",
+  },
+  buttonText: {
+    color: "white",
+    textAlign: "center",
+  },
+});
 
 export default Compose;

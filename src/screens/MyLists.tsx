@@ -99,6 +99,12 @@ export const MyLists = ({ navigation }: MyListsProps) => {
       ) : (
         <>
           <HeaderActions navigation={navigation} />
+          <View
+            style={{
+              borderBottomColor: "black",
+              borderBottomWidth: StyleSheet.hairlineWidth,
+            }}
+          />
           <FlatList
             data={lists}
             renderItem={renderItem}
