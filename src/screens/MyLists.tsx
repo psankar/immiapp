@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    flexDirection: "row",
   },
   listItemText: {
     fontSize: 18,

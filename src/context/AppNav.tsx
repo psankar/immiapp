@@ -6,6 +6,8 @@ import { SignIn } from "../screens/SignIn";
 import { AuthContext, AuthContextType } from "./AuthContext";
 import t from "../localization/i18n";
 import ListTimeline from "../screens/ListTimeline";
+import { Ionicons } from "@expo/vector-icons";
+import { View } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +18,28 @@ export const AppNav = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {isLoggedIn ? (
-          <Stack.Screen name={t("my_lists")} component={MyLists} />
+          <Stack.Screen
+            name={t("my_lists")}
+            component={MyLists}
+            options={{
+              headerRight: () => (
+                <View
+                  style={{
+                    flexDirection: "row",
+                  }}
+                >
+                  <Ionicons name="chatbox" size={24} color="black" />
+                  <Ionicons
+                    name="menu"
+                    size={24}
+                    color="black"
+                    onPress={() => alert("TODO")}
+                    style={{ paddingLeft: 100 }}
+                  />
+                </View>
+              ),
+            }}
+          />
         ) : (
           <Stack.Screen name={t("sign_in")} component={SignIn} />
         )}
