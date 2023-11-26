@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -11,9 +12,9 @@ import {
 import BASE_URL from "../config";
 import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
-import { Ionicons } from "@expo/vector-icons";
 
 import { NavigationProp } from "@react-navigation/native";
+import { HeaderActions } from "../components/HeaderActions";
 
 type MyListsProps = {
   navigation: NavigationProp<Record<string, object>>;
@@ -97,6 +98,7 @@ export const MyLists = ({ navigation }: MyListsProps) => {
         </View>
       ) : (
         <>
+          <HeaderActions navigation={navigation} />
           <FlatList
             data={lists}
             renderItem={renderItem}
