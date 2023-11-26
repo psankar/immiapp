@@ -98,6 +98,7 @@ const ListTimeline = ({ route, navigation }: Props) => {
 
     return (
       <View style={styles.immiContainer}>
+        <Text style={styles.immiBody}>{immiInfo.account_handle}</Text>
         <Text style={styles.immiBody}>{immiInfo.body}</Text>
         <Text style={styles.immiTime}>{immiInfo.time}</Text>
       </View>
