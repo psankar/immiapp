@@ -96,11 +96,13 @@ const ListTimeline = ({ route, navigation }: Props) => {
       return null;
     }
 
+    var date = new Date(immiInfo.time);
+
     return (
       <View style={styles.immiContainer}>
-        <Text style={styles.immiBody}>{immiInfo.account_handle}</Text>
+        <Text style={styles.immiBody}>{"@" + immiInfo.account_handle}</Text>
         <Text style={styles.immiBody}>{immiInfo.body}</Text>
-        <Text style={styles.immiTime}>{immiInfo.time}</Text>
+        <Text style={styles.immiTime}>{date.toString()}</Text>
       </View>
     );
   };
@@ -124,7 +126,6 @@ const styles = StyleSheet.create({
   },
   immiBody: {
     fontSize: 16,
-    fontWeight: "bold",
     marginBottom: 5,
   },
   immiTime: {
