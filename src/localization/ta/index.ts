@@ -2,6 +2,7 @@ export default {
   account_handle: "பயனர்கணக்கு",
   account_invalid_state: "பயனர்கணக்கு முடக்கப்பட்டுள்ளது",
   change_language: "Change Language",
+  compose:"எழுது",
   forgot_password: "கடவுச்சொல் மறந்ததோ ?",
   invalid_credentials: "பிழையான பயனர்கணக்கு / கடவுச்சொல் ",
   list_timeline: "பட்டியல் நேரக்கோடு",
@@ -10,6 +11,8 @@ export default {
   network_error: "இணைப்பில் சிக்கல்",
   password: "கடவுச்சொல்",
   sign_in: "உள்ளே போ",
+  publish: "வெளியிட",
+  reset: "மீட்டமை",
   unknown_error: "பிழை ஏற்பட்டுள்ளது",
   wrong_credentials: "தவறான பயனர்கணக்கு / கடவுச்சொல்",
 };
