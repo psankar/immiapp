@@ -1,46 +1,81 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, Text, TextInput, View, StyleSheet } from "react-native";
+import { saxios } from "../context/AuthContext";
+import BASE_URL from "../config";
+import { useNavigation } from "@react-navigation/native";
+import { globalConstants as gc } from "../constants/global-constants";
+import t from "../localization/i18n";
 
 const Compose = () => {
-  const [text, setText] = useState("");
-
+  const [publishText, setPublishText] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
+  const [showElement, setShowElement] = useState(true);
+  const navigation = useNavigation();
+  let isSuccess = false;
   const handleTextChange = (text: string) => {
-    setText(text);
+    setPublishText(text);
   };
-
   const handlePublish = () => {
     // Logic to publish the text
-    console.log("Publishing:", text);
+    saxios
+      .post(`${BASE_URL}/immis`, {
+        body: publishText,
+      })
+      .then((response) => {
+        isSuccess = response.status === 201;
+        if (isSuccess) {
+          setResponseMessage("Published post successfully");
+          handleReset();
+        }
+      })
+      .catch((error: any) => {
+        setResponseMessage(error);
+      });
   };
 
   const handleReset = () => {
-    setText("");
+    setPublishText("");
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowElement(false);
+      navigation.goBack();
+    }, 9000);
+  }, []);
 
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.textInput}
-        value={text}
+        value={publishText}
         onChangeText={handleTextChange}
         multiline={true}
         numberOfLines={10}
         placeholder="Say something nice..."
       />
-      <Pressable
-        style={[styles.button, styles.publishButton]}
-        onPress={handlePublish}
-      >
-        <Text style={styles.buttonText}>Publish</Text>
-      </Pressable>
-      <Pressable
-        style={[styles.button, styles.resetButton]}
-        onPress={handleReset}
-      >
-        <Text style={styles.buttonText}>Reset</Text>
-      </Pressable>
-      <Ionicons name="camera" size={24} color="black" />{" "}
+      <Ionicons name="camera" size={24} color="black" />
+      <View style={styles.buttonsInline}>
+        <Pressable
+          style={[styles.button, styles.publishButton]}
+          disabled={publishText.length > gc.pubishTextSize}
+          onPress={handlePublish}
+        >
+          <Text style={styles.buttonText}>{t("publish")}</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.button, styles.resetButton]}
+          onPress={handleReset}
+        >
+          <Text style={styles.buttonText}>{t("reset")}</Text>
+        </Pressable>
+      </View>
+      {showElement && (
+        <Text style={[!isSuccess && styles.failure, styles.responseAlert]}>
+          {responseMessage}
+        </Text>
+      )}
     </View>
   );
 };
@@ -49,6 +84,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    borderRadius: 5,
   },
   textInput: {
     height: 200,
@@ -60,8 +96,13 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     borderRadius: 5,
-    marginTop: 20,
+    marginTop: 10,
     alignSelf: "center",
+    width: 200,
+  },
+  buttonsInline: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   publishButton: {
     backgroundColor: "blue",
@@ -72,6 +113,14 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     textAlign: "center",
+  },
+  responseAlert: {
+    padding: 10,
+    marginTop: 20,
+    color: "green",
+  },
+  failure: {
+    color: "red",
   },
 });
 

@@ -26,7 +26,7 @@ export const AppNav = () => {
           component={ListTimeline}
           initialParams={{ displayName: "", handle: "" }}
         />
-        <Stack.Screen name={"compose"} component={Compose} />
+        <Stack.Screen name={t("compose")} component={Compose} />
       </Stack.Navigator>
     </NavigationContainer>
   );

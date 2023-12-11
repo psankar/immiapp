@@ -14,14 +14,14 @@ export const HeaderActions = ({ navigation }: HeaderActionsProps) => {
         name="chatbox"
         size={24}
         color="black"
-        onPress={() => navigation.navigate("compose", {})}
+        onPress={() => navigation.navigate("Compose", {})}
+        style={{ paddingRight: 10 }}
       />
       <Ionicons
         name="menu"
         size={24}
         color="black"
         onPress={() => alert("TODO")}
-        style={{ paddingLeft: 100 }}
       />
     </View>
   );
