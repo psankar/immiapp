@@ -1,3 +1,5 @@
+SHA=$(shell git rev-parse HEAD)
+
 check-git-status:
 	@if [ -n "$$(git status --porcelain)" ]; then \
 		echo "Error: There are uncommitted changes in the git repository."; \
@@ -9,4 +11,4 @@ check-git-status:
 	fi
 
 docker: check-git-status
-	@docker build -t localhost/immi/immiapp .
+	@docker build -t localhost/immi/immiapp:$(SHA) .
