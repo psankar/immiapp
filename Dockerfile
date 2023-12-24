@@ -23,12 +23,12 @@ FROM nginx
 RUN echo "\
     server {\
     listen 80;\
+    location /api {\
+    proxy_pass http://arya:8080;\
+    }\
     location / {\
     root /usr/share/nginx/html;\
     try_files \$uri \$uri/ /index.html;\
-    }\
-    location /api {\
-    proxy_pass http://arya:8080;\
     }\
     }" > /etc/nginx/conf.d/default.conf
 
