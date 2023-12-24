@@ -12,4 +12,4 @@ check-git-status:
 
 docker: check-git-status
 	@npx expo export:web
-	@docker build -t localhost/immi/immiapp:$(SHA) .
+	@docker build -t localhost:32000/immiapp:$(SHA) .
