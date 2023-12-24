@@ -11,4 +11,5 @@ check-git-status:
 	fi
 
 docker: check-git-status
+	@npx expo build:web
 	@docker build -t localhost/immi/immiapp:$(SHA) .

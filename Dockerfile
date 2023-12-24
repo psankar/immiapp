@@ -1,20 +1,14 @@
-# Use an official Node.js runtime as the base image
-FROM node:20.10.0
+# Use a lightweight base image
+FROM nginx:alpine
 
-# Set the working directory in the container to /app
-WORKDIR /app
+# Set the working directory in the container
+WORKDIR /usr/share/nginx/html
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Copy the contents of the web-build directory to the container
+COPY web-build/ .
 
-# Install the application dependencies
-RUN npm install --omit=dev
+# Expose port 80 for the NGINX server
+EXPOSE 80
 
-# Copy the rest of the application code to the working directory
-COPY . .
-
-# Expose port 3000 for the application
-EXPOSE 3000
-
-# Start the application
-CMD [ "npm", "start" ]
+# Start the NGINX server
+CMD ["nginx", "-g", "daemon off;"]
