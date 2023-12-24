@@ -1,14 +1,29 @@
-# Use a lightweight base image
-FROM nginx:alpine
+# Use the latest LTS nodejs docker image as a builder image
+FROM node:20.10.0 AS builder
 
-# Set the working directory in the container
-WORKDIR /usr/share/nginx/html
+# Set the working directory in the builder image
+WORKDIR /app
 
-# Copy the contents of the web-build directory to the container
-COPY web-build/ .
+# Copy the package.json and package-lock.json files to the builder image
+COPY package*.json ./
 
-# Expose port 80 for the NGINX server
+# Install dependencies in the builder image
+RUN npm install
+
+# Copy the entire project to the builder image
+COPY . .
+
+# Generate static files of the current project on the builder image via npx expo export:web
+RUN npx expo export:web
+
+# Use the nginx image as the final image
+FROM nginx
+
+# Copy the web-build directory from the builder image to the final nginx image
+COPY --from=builder /app/web-build /usr/share/nginx/html
+
+# Expose port 80 for the nginx server
 EXPOSE 80
 
-# Start the NGINX server
+# Start the nginx server
 CMD ["nginx", "-g", "daemon off;"]
