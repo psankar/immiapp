@@ -19,6 +19,19 @@ RUN npx expo export:web
 # Use the nginx image as the final image
 FROM nginx
 
+# Create the Nginx configuration file
+RUN echo "\
+    server {\
+    listen 80;\
+    location / {\
+    root /usr/share/nginx/html;\
+    try_files \$uri \$uri/ /index.html;\
+    }\
+    location /api {\
+    proxy_pass http://arya:8080;\
+    }\
+    }" > /etc/nginx/conf.d/default.conf
+
 # Copy the web-build directory from the builder image to the final nginx image
 COPY --from=builder /app/web-build /usr/share/nginx/html
 
