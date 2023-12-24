@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Generate static files of the current project on the builder image via npx expo export:web
-RUN npx expo export:web
+RUN NODE_ENV="production" npx expo export:web
 
 # Use the nginx image as the final image
 FROM nginx
