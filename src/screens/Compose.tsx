@@ -38,13 +38,6 @@ const Compose = () => {
     setPublishText("");
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setShowElement(false);
-      navigation.goBack();
-    }, 9000);
-  }, []);
-
   return (
     <View style={styles.container}>
       <TextInput
