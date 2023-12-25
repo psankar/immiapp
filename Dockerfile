@@ -20,20 +20,7 @@ RUN NODE_ENV="production" npx expo export:web
 FROM nginx
 
 # Create the Nginx configuration file
-RUN echo "\
-    server {\
-    listen 80;\
-    location /api {\
-    return 302 /api/;\
-    }\
-    location /api/ {\
-    proxy_pass http://arya:8080/;\
-    }\
-    location / {\
-    root /usr/share/nginx/html;\
-    try_files \$uri \$uri/ /index.html;\
-    }\
-    }" > /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy the web-build directory from the builder image to the final nginx image
 COPY --from=builder /app/web-build /usr/share/nginx/html
