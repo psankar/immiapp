@@ -12,4 +12,5 @@ check-git-status:
 
 docker: check-git-status
 	@docker build -t localhost:32000/immiapp:$(SHA) .
-	@docker push localhost:32000/immiapp:$(SHA)
+	@docker tag localhost:32000/immiapp:$(SHA) localhost:32000/immiapp:latest
+	@docker push localhost:32000/immiapp:latest
