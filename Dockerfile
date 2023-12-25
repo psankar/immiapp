@@ -17,16 +17,13 @@ COPY . .
 RUN NODE_ENV="production" npx expo export:web
 
 # Use the nginx image as the final image
-FROM nginx
+FROM nginx:1.25.2
 
 # Create the Nginx configuration file
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy the web-build directory from the builder image to the final nginx image
 COPY --from=builder /app/web-build /usr/share/nginx/html
 
 # Expose port 80 for the nginx server
 EXPOSE 80
-
-# Start the nginx server
-CMD ["nginx", "-g", "daemon off;"]
