@@ -7,17 +7,13 @@ interface User {
   account_handle: string;
 }
 
-export interface ManageListProps {
+type ManageListProps = {
+  route: any;
   navigation: NavigationProp<Record<string, object>>;
-  list_handle: string;
-  display_name: string;
-}
+};
 
-const ManageList = ({
-  navigation,
-  list_handle,
-  display_name,
-}: ManageListProps) => {
+const ManageList = ({ route, navigation }: ManageListProps) => {
+  const { list_handle, display_name } = route.params;
   const [users, setUsers] = useState<User[]>([]);
   const [accountHandle, setAccountHandle] = useState("");
   const [error, setError] = useState("");

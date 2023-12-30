@@ -1,6 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useContext } from "react";
 import t from "../localization/i18n";
 import Compose from "../screens/Compose";
 import CreateList from "../screens/CreateList";
@@ -9,6 +8,7 @@ import ManageList from "../screens/ManageList";
 import { MyLists } from "../screens/MyLists";
 import { SignIn } from "../screens/SignIn";
 import { AuthContext, AuthContextType } from "./AuthContext";
+import { useContext } from "react";
 
 const Stack = createNativeStackNavigator();
 
