@@ -17,17 +17,15 @@ type CreateListProps = {
 };
 
 const CreateList = ({ navigation }: CreateListProps) => {
-  const [listName, setListName] = useState("");
+  const [listDisplayName, setListDisplayName] = useState("");
   const [listHandle, setListHandle] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isWaiting, setIsWaiting] = useState(false);
 
   const handleCreateList = async () => {
-    // TODO: Replace with actual Regex validation in server side
-    const listNameRegex = /^[A-Za-z\s]+$/;
-    const listHandleRegex = /^[A-Za-z0-9_]+$/;
+    const listHandleRegex = /^[a-z0-9]*[a-z][a-z0-9]*$/;
 
-    if (!listNameRegex.test(listName)) {
+    if (listDisplayName.length < 3 || listDisplayName.length > 32) {
       setError(t("list_name_invalid"));
       return;
     }
@@ -43,7 +41,7 @@ const CreateList = ({ navigation }: CreateListProps) => {
     // Make network call to create a new list
     saxios
       .post("/lists", {
-        display_name: listName,
+        display_name: listDisplayName,
         handle: listHandle,
       })
       .then((response) => {
@@ -73,8 +71,8 @@ const CreateList = ({ navigation }: CreateListProps) => {
           <TextInput
             style={styles.input}
             placeholder={t("list_name_placeholder")}
-            value={listName}
-            onChangeText={setListName}
+            value={listDisplayName}
+            onChangeText={setListDisplayName}
           />
           <Text style={styles.label}>{t("list_handle")}</Text>
           <TextInput
