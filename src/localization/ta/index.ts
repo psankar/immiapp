@@ -3,6 +3,7 @@ export default {
   account_invalid_state: "பயனர்கணக்கு முடக்கப்பட்டுள்ளது",
   change_language: "Change Language",
   compose:"எழுது",
+  create_list: "பட்டியல் உருவாக்கு",
   forgot_password: "கடவுச்சொல் மறந்ததோ ?",
   invalid_credentials: "பிழையான பயனர்கணக்கு / கடவுச்சொல் ",
   list_timeline: "பட்டியல் நேரக்கோடு",

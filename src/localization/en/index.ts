@@ -3,6 +3,7 @@ export default {
   account_invalid_state: "Account Handle is not accessible now",
   change_language: "Change Language",
   compose: "Compose",
+  create_list: "Create List",
   forgot_password: "Forgot Password",
   invalid_credentials: "Invalid Account Handle / Password",
   list_timeline: "List Timeline",

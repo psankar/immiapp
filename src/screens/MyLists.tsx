@@ -99,20 +99,21 @@ export const MyLists = ({ navigation }: MyListsProps) => {
       ) : (
         <>
           <HeaderActions navigation={navigation} />
-          <View
-            style={{
-              borderBottomColor: "black",
-              borderBottomWidth: StyleSheet.hairlineWidth,
-            }}
-          />
           <FlatList
             data={lists}
             renderItem={renderItem}
             keyExtractor={(item) => item.handle}
           />
-          <Pressable onPress={handleSignout} style={styles.signoutButton}>
-            <Text style={styles.signoutButtonText}>Signout</Text>
-          </Pressable>
+          <View>
+            <Pressable
+              onPress={() => navigation.navigate(t("create_list"), {})}
+            >
+              <Text>Create new list</Text>
+            </Pressable>
+            <Pressable onPress={handleSignout} style={styles.signoutButton}>
+              <Text style={styles.signoutButtonText}>Signout</Text>
+            </Pressable>
+          </View>
         </>
       )}
     </View>

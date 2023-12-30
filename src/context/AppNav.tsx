@@ -7,6 +7,7 @@ import ListTimeline from "../screens/ListTimeline";
 import { MyLists } from "../screens/MyLists";
 import { SignIn } from "../screens/SignIn";
 import { AuthContext, AuthContextType } from "./AuthContext";
+import CreateList from "../screens/CreateList";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ export const AppNav = () => {
           initialParams={{ displayName: "", handle: "" }}
         />
         <Stack.Screen name={t("compose")} component={Compose} />
+        <Stack.Screen name={t("create_list")} component={CreateList} />
       </Stack.Navigator>
     </NavigationContainer>
   );

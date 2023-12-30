@@ -11,5 +11,5 @@ check-git-status:
 	fi
 
 docker: check-git-status
-	@docker build -t localhost:32000/immiapp:$(SHA) .
-	@docker push localhost:32000/immiapp:$(SHA)
+	docker build -t localhost:32000/immiapp:$(SHA) .
+	docker push localhost:32000/immiapp:$(SHA)
