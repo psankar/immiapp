@@ -3,10 +3,6 @@ import { useEffect, useState } from "react";
 import { Button, FlatList, Text, TextInput, View } from "react-native";
 import { saxios } from "../context/AuthContext";
 
-interface User {
-  account_handle: string;
-}
-
 type ManageListProps = {
   route: any;
   navigation: NavigationProp<Record<string, object>>;
@@ -14,7 +10,7 @@ type ManageListProps = {
 
 const ManageList = ({ route, navigation }: ManageListProps) => {
   const { list_handle, display_name } = route.params;
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<String[]>([]);
   const [accountHandle, setAccountHandle] = useState("");
   const [error, setError] = useState("");
 
@@ -23,7 +19,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
     navigation.setOptions({ title: display_name });
     saxios
       .post("/get-list-members", { list_handle })
-      .then((response) => setUsers(response.data))
+      .then((response) => setUsers(response.data.account_handles))
       .catch((error) => setError(error.message));
   }, []);
 
@@ -42,18 +38,9 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
 
   return (
     <View>
-      <FlatList
-        data={users}
-        keyExtractor={(item) => item.account_handle}
-        renderItem={({ item }) => (
-          <View>
-            <Text>{item.account_handle}</Text>
-          </View>
-        )}
-      />
+      <FlatList data={users} renderItem={({ item }) => <Text>{item}</Text>} />
       <TextInput value={accountHandle} onChangeText={setAccountHandle} />
       <Button title="Add" onPress={addAccountToList} />
-      {error && <Text>{error}</Text>}
     </View>
   );
 };
