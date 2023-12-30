@@ -59,6 +59,16 @@ export const MyLists = ({ navigation }: MyListsProps) => {
     item: { handle: string; display_name: string };
   }) => (
     <View style={styles.listItem}>
+      <Pressable
+        onPress={() =>
+          navigation.navigate(t("list_manage"), {
+            list_handle: item.handle,
+            display_name: item.display_name,
+          })
+        }
+      >
+        <Ionicons name="settings" size={24} color="black" />
+      </Pressable>
       <Text style={styles.listItemText}>{item.display_name}</Text>
       <Pressable
         onPress={() =>

@@ -3,11 +3,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useContext } from "react";
 import t from "../localization/i18n";
 import Compose from "../screens/Compose";
+import CreateList from "../screens/CreateList";
 import ListTimeline from "../screens/ListTimeline";
+import ManageList from "../screens/ManageList";
 import { MyLists } from "../screens/MyLists";
 import { SignIn } from "../screens/SignIn";
 import { AuthContext, AuthContextType } from "./AuthContext";
-import CreateList from "../screens/CreateList";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,11 @@ export const AppNav = () => {
         />
         <Stack.Screen name={t("compose")} component={Compose} />
         <Stack.Screen name={t("create_list")} component={CreateList} />
+        <Stack.Screen
+          name={t("list_manage")}
+          component={ManageList}
+          initialParams={{ list_handle: "", display_name: "" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
