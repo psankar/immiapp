@@ -69,13 +69,17 @@ const CreateList = ({ navigation }: CreateListProps) => {
         </View>
       ) : (
         <View>
+          <Text style={styles.label}>{t("list_name")}</Text>
           <TextInput
-            placeholder="List Name"
+            style={styles.input}
+            placeholder={t("list_name_placeholder")}
             value={listName}
             onChangeText={setListName}
           />
+          <Text style={styles.label}>{t("list_handle")}</Text>
           <TextInput
-            placeholder="List Handle"
+            style={styles.input}
+            placeholder={t("list_handle_placeholder")}
             value={listHandle}
             onChangeText={setListHandle}
           />
@@ -112,6 +116,19 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 20,
+    padding: 10,
+    width: "100%",
   },
   signoutButtonText: {
     color: "#fff",
