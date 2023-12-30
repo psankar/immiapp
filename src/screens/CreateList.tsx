@@ -48,10 +48,12 @@ const CreateList = ({ navigation }: CreateListProps) => {
         if (response.status === 200) {
           navigation.navigate(t("my_lists"), {});
         } else {
+          console.error(error);
           setError(t("list_create_failed"));
         }
       })
       .catch((error) => {
+        console.error(error);
         setError(t("list_create_failed"));
       })
       .finally(() => {
