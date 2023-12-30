@@ -106,12 +106,15 @@ export const MyLists = ({ navigation }: MyListsProps) => {
           />
           <View>
             <Pressable
+              style={styles.createListButton}
               onPress={() => navigation.navigate(t("create_list"), {})}
             >
-              <Text>Create new list</Text>
+              <Text style={styles.createListButtonText}>
+                {t("create_list")}
+              </Text>
             </Pressable>
             <Pressable onPress={handleSignout} style={styles.signoutButton}>
-              <Text style={styles.signoutButtonText}>Signout</Text>
+              <Text style={styles.signoutButtonText}>{t("signout")}</Text>
             </Pressable>
           </View>
         </>
@@ -126,6 +129,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 20,
     paddingVertical: 10,
+  },
+  createListButton: {
+    backgroundColor: "#007AFF",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    alignSelf: "center",
+  },
+  createListButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   loadingContainer: {
     flex: 1,

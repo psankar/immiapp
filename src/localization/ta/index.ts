@@ -12,6 +12,7 @@ export default {
   network_error: "இணைப்பில் சிக்கல்",
   password: "கடவுச்சொல்",
   sign_in: "உள்ளே போ",
+  signout: "வெளியேறு",
   publish: "வெளியிட",
   reset: "மீட்டமை",
   unknown_error: "பிழை ஏற்பட்டுள்ளது",

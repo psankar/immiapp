@@ -80,7 +80,7 @@ const CreateList = ({ navigation }: CreateListProps) => {
             onChangeText={setListHandle}
           />
           <Pressable onPress={handleCreateList} style={styles.createListButton}>
-            <Text>Create List</Text>
+            <Text style={styles.createListButtonText}>{t("create_list")}</Text>
           </Pressable>
           {error && <Text>{error}</Text>}
         </View>
@@ -102,11 +102,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   createListButton: {
-    backgroundColor: "#0f0",
+    backgroundColor: "#007AFF",
     padding: 10,
     borderRadius: 5,
     marginTop: 20,
     alignSelf: "center",
+  },
+  createListButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   signoutButtonText: {
     color: "#fff",

@@ -14,6 +14,7 @@ export default {
   publish: "Publish",
   reset: "Reset",
   sign_in: "Sign In",
+  signout: "Sign Out",
   unknown_error: "Error occured",
   wrong_credentials: "Wrong Account Handle / Password",
 };
