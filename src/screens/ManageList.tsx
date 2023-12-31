@@ -2,6 +2,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Button, FlatList, Text, TextInput, View } from "react-native";
 import { saxios } from "../context/AuthContext";
+import t from "../localization/i18n";
 
 type ManageListProps = {
   route: any;
@@ -32,7 +33,15 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
 
     saxios
       .post("/add-to-list", { list_handle, account_handle: accountHandle })
-      .then((response) => setUsers([...users, response.data]))
+      .then((response) => {
+        if (response.status === 200) {
+          // TODO: Perhaps show a dialog that the user was added to the list
+          navigation.navigate(t("my_lists"), {});
+        } else {
+          // TODO: Handle errors more gracefully with proper messages
+          setError(response.data.error);
+        }
+      })
       .catch((error) => setError(error.message));
   };
 
@@ -41,6 +50,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
       <FlatList data={users} renderItem={({ item }) => <Text>{item}</Text>} />
       <TextInput value={accountHandle} onChangeText={setAccountHandle} />
       <Button title="Add" onPress={addAccountToList} />
+      {error && <Text>{error}</Text>}
     </View>
   );
 };
