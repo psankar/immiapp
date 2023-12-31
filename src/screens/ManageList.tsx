@@ -73,12 +73,17 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
         if (response.status === 200) {
           // TODO: Perhaps show a dialog that the user was added to the list
           navigation.navigate(t("my_lists"), {});
-        } else {
-          // TODO: Handle errors more gracefully with proper messages
-          setError(response.data.error);
         }
+        // TODO: Handle errors more gracefully with proper messages
+        setError(response.data.error);
       })
-      .catch((error) => setError(error.message));
+      .catch((error) => {
+        if (error.response?.status === 400) {
+          setError(t("account_not_found"));
+          return;
+        }
+        setError(error.message);
+      });
   };
 
   if (isWaiting) {
@@ -122,7 +127,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
         </View>
       </View>
 
-      {/* TODO: Find why this causes error {error && <Text>{error}</Text>} */}
+      {error ? <Text>{error}</Text> : null}
     </View>
   );
 };
