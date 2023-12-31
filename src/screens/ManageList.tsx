@@ -1,9 +1,17 @@
 import { NavigationProp } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { FlatList, Pressable, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
 import { StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 type ManageListProps = {
   route: any;
@@ -15,6 +23,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
   const [users, setUsers] = useState<String[]>([]);
   const [accountHandle, setAccountHandle] = useState("");
   const [error, setError] = useState("");
+  const [isWaiting, setIsWaiting] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({ title: display_name });
@@ -24,9 +33,30 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
       .catch((error) => setError(error.message));
   }, []);
 
+  const handleRemoveUserFromList = (account: String) => {
+    setIsWaiting(true);
+    saxios
+      .post("/remove-from-list", { list_handle, account_handle: account })
+      .then((response) => {
+        if (response.status === 200) {
+          navigation.navigate(t("my_lists"), {});
+        }
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => {
+        setIsWaiting(false);
+      });
+  };
+
   const renderAccountHandle = ({ item }: { item: String }) => (
     <View style={styles.listItem}>
       <Text style={styles.listItemText}>{item}</Text>
+      <Ionicons
+        name="remove-circle"
+        size={24}
+        color="red"
+        onPress={() => handleRemoveUserFromList(item)}
+      />
     </View>
   );
 
@@ -50,6 +80,14 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
       })
       .catch((error) => setError(error.message));
   };
+
+  if (isWaiting) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View>
@@ -101,6 +139,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   label: {
     fontSize: 18,
