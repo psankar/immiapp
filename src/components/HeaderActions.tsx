@@ -36,8 +36,11 @@ export const HeaderActions = ({ navigation }: HeaderActionsProps) => {
           <MenuTrigger text="Menu" />
           <MenuOptions>
             <MenuOption
-              onSelect={() => console.log("Option 1 clicked")}
-              text="Option 1"
+              onSelect={() => {
+                setMenuVisible(false);
+                navigation.navigate(t("invite"), {});
+              }}
+              text={t("Invite")}
             />
             <MenuOption
               onSelect={() => console.log("Option 2 clicked")}

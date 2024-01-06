@@ -22,7 +22,7 @@ type MyListsProps = {
 
 export const MyLists = ({ navigation }: MyListsProps) => {
   const [lists, setLists] = useState([]);
-  const [isWaiting, setIsWaiting] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const { logout } = useContext<AuthContextType>(AuthContext);
@@ -42,10 +42,11 @@ export const MyLists = ({ navigation }: MyListsProps) => {
         }
       })
       .catch((error) => {
+        console.error(error);
         setError(t("lists_fetch_failed"));
       })
       .finally(() => {
-        setIsWaiting(false);
+        setIsLoading(false);
       });
   };
 
@@ -102,7 +103,7 @@ export const MyLists = ({ navigation }: MyListsProps) => {
           </View>
         </Modal>
       )}
-      {isWaiting ? (
+      {isLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
