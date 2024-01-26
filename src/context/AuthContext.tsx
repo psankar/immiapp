@@ -92,6 +92,12 @@ export const AuthProvider = ({ children }: AuthContextProviderProps) => {
     setIsLoggedIn(false);
   };
 
+  const authToken = localStorage.getItem("authToken");
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (authToken && refreshToken && !isLoggedIn) {
+    login(authToken, refreshToken);
+  }
+
   return (
     <AuthContext.Provider
       value={{ isLoggedIn, refreshAuthToken, login, logout }}
