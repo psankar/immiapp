@@ -28,11 +28,22 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
 
   useEffect(() => {
     navigation.setOptions({ title: display_name });
+    refresh();
+  }, []);
+
+  const refresh = () => {
+    setIsWaiting(true);
     saxios
       .post("/get-list-members", { list_handle })
-      .then((response) => setUsers(response.data.account_handles))
-      .catch((error) => setMsg(error.message));
-  }, []);
+      .then((response) => {
+        setIsWaiting(false);
+        setUsers(response.data.account_handles);
+      })
+      .catch((error) => {
+        setIsWaiting(false);
+        setMsg(error.message);
+      });
+  };
 
   const handleRemoveUserFromList = (account: String) => {
     setIsWaiting(true);
@@ -42,7 +53,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
         setIsWaiting(false);
         if (response.status === 200) {
           setMsg(t("account_removed_from_list"));
-          navigation.navigate(t("my_lists"), {});
+          refresh();
           return;
         }
       })
@@ -76,7 +87,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
       .then((response) => {
         if (response.status === 200) {
           setMsg(t("account_added_to_list"));
-          navigation.navigate(t("my_lists"), {});
+          refresh();
           return;
         }
         // TODO: Handle errors more gracefully with proper messages
