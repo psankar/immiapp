@@ -1,6 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { Pressable, Text, TextInput, View, StyleSheet } from "react-native";
+import {
+  Pressable,
+  Text,
+  TextInput,
+  View,
+  StyleSheet,
+  Modal,
+} from "react-native";
 import { saxios } from "../context/AuthContext";
 import BASE_URL from "../config";
 import { useNavigation } from "@react-navigation/native";
@@ -9,10 +16,8 @@ import t from "../localization/i18n";
 
 const Compose = () => {
   const [publishText, setPublishText] = useState("");
-  const [responseMessage, setResponseMessage] = useState("");
-  const [showElement, setShowElement] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const navigation = useNavigation();
-  let isSuccess = false;
   const handleTextChange = (text: string) => {
     setPublishText(text);
   };
@@ -22,15 +27,11 @@ const Compose = () => {
       .post(`${BASE_URL}/immis`, {
         body: publishText,
       })
-      .then((response) => {
-        isSuccess = response.status === 201;
-        if (isSuccess) {
-          setResponseMessage("Published post successfully");
-          handleReset();
-        }
+      .then(() => {
+        navigation.goBack();
       })
       .catch((error: any) => {
-        setResponseMessage(error);
+        setError(error.response.data);
       });
   };
 
@@ -40,19 +41,35 @@ const Compose = () => {
 
   return (
     <View style={styles.container}>
+      {error && (
+        <Modal visible={true} animationType="slide">
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>{error}</Text>
+            <Pressable
+              onPress={() => setError(null)}
+              style={styles.modalButton}
+            >
+              <Text style={styles.modalButtonText}>OK</Text>
+            </Pressable>
+          </View>
+        </Modal>
+      )}
       <TextInput
         style={styles.textInput}
         value={publishText}
         onChangeText={handleTextChange}
         multiline={true}
-        numberOfLines={10}
+        numberOfLines={4}
         placeholder="Say something nice..."
       />
       <Ionicons name="camera" size={24} color="black" />
       <View style={styles.buttonsInline}>
         <Pressable
           style={[styles.button, styles.publishButton]}
-          disabled={publishText.length > gc.pubishTextSize}
+          disabled={
+            publishText.length > gc.immiMaxLen ||
+            publishText.length < gc.immiMinLen
+          }
           onPress={handlePublish}
         >
           <Text style={styles.buttonText}>{t("publish")}</Text>
@@ -64,11 +81,6 @@ const Compose = () => {
           <Text style={styles.buttonText}>{t("reset")}</Text>
         </Pressable>
       </View>
-      {showElement && (
-        <Text style={[!isSuccess && styles.failure, styles.responseAlert]}>
-          {responseMessage}
-        </Text>
-      )}
     </View>
   );
 };
@@ -80,8 +92,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textInput: {
-    height: 200,
     borderWidth: 1,
+    borderRadius: 5,
     borderColor: "gray",
     marginBottom: 16,
     padding: 8,
@@ -94,17 +106,23 @@ const styles = StyleSheet.create({
     width: 200,
   },
   buttonsInline: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
   },
   publishButton: {
-    backgroundColor: "blue",
+    backgroundColor: "#007AFF",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    alignSelf: "center",
   },
   resetButton: {
     backgroundColor: "gray",
   },
   buttonText: {
-    color: "white",
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
     textAlign: "center",
   },
   responseAlert: {
@@ -114,6 +132,29 @@ const styles = StyleSheet.create({
   },
   failure: {
     color: "red",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+  modalButton: {
+    backgroundColor: "#f00",
+    padding: 10,
+    borderRadius: 5,
+    alignSelf: "center",
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

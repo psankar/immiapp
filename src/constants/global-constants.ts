@@ -1,3 +1,4 @@
 export const globalConstants = {
-    pubishTextSize: 256
+    immiMinLen: 2,
+    immiMaxLen: 256,
 }
