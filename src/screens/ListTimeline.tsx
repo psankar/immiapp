@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import BASE_URL from "../config";
 import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
+import { formatDate } from "../utils/utils";
 
 // TODO: Use more precise types below
 type Props = {
@@ -102,7 +103,7 @@ const ListTimeline = ({ route, navigation }: Props) => {
       <View style={styles.immiContainer}>
         <Text style={styles.immiBody}>{"@" + immiInfo.account_handle}</Text>
         <Text style={styles.immiBody}>{immiInfo.body}</Text>
-        <Text style={styles.immiTime}>{date.toString()}</Text>
+        <Text style={styles.immiTime}>{formatDate(date)}</Text>
       </View>
     );
   };
