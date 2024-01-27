@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  Modal,
   Pressable,
   Text,
   TextInput,
@@ -22,7 +23,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
   const { list_handle, display_name } = route.params;
   const [users, setUsers] = useState<String[]>([]);
   const [accountHandle, setAccountHandle] = useState("");
-  const [error, setError] = useState("");
+  const [msg, setMsg] = useState<string | null>(null);
   const [isWaiting, setIsWaiting] = useState(false);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
     saxios
       .post("/get-list-members", { list_handle })
       .then((response) => setUsers(response.data.account_handles))
-      .catch((error) => setError(error.message));
+      .catch((error) => setMsg(error.message));
   }, []);
 
   const handleRemoveUserFromList = (account: String) => {
@@ -38,18 +39,21 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
     saxios
       .post("/remove-from-list", { list_handle, account_handle: account })
       .then((response) => {
+        setIsWaiting(false);
         if (response.status === 200) {
+          setMsg(t("account_removed_from_list"));
           navigation.navigate(t("my_lists"), {});
+          return;
         }
       })
-      .catch((error) => setError(error.message))
-      .finally(() => {
+      .catch((error) => {
         setIsWaiting(false);
-      });
+        setMsg(error.message);
+      } 
   };
 
   const renderAccountHandle = ({ item }: { item: String }) => (
-    <View style={styles.listItem}>
+    <View style={styles.accountsListView}>
       <Text style={styles.listItemText}>{item}</Text>
       <Ionicons
         name="remove-circle"
@@ -63,7 +67,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
   const addAccountToList = () => {
     const regex = /^[a-z0-9]*[a-z][a-z0-9]*$/;
     if (!regex.test(accountHandle)) {
-      setError("Invalid account handle");
+      setMsg("Invalid account handle");
       return;
     }
 
@@ -71,18 +75,19 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
       .post("/add-to-list", { list_handle, account_handle: accountHandle })
       .then((response) => {
         if (response.status === 200) {
-          // TODO: Perhaps show a dialog that the user was added to the list
+          setMsg(t("account_added_to_list"));
           navigation.navigate(t("my_lists"), {});
+          return;
         }
         // TODO: Handle errors more gracefully with proper messages
-        setError(response.data.error);
+        setMsg(response.data.error);
       })
       .catch((error) => {
         if (error.response?.status === 400) {
-          setError(t("account_not_found"));
+          setMsg(t("account_not_found"));
           return;
         }
-        setError(error.message);
+        setMsg(error.message);
       });
   };
 
@@ -96,6 +101,17 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
 
   return (
     <View>
+      {msg && (
+        <Modal visible={true} animationType="slide">
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>{msg}</Text>
+            <Pressable onPress={() => setMsg(null)} style={styles.modalButton}>
+              <Text style={styles.modalButtonText}>OK</Text>
+            </Pressable>
+          </View>
+        </Modal>
+      )}
+
       {users && users.length === 0 ? (
         <Text>{t("no_users_in_list")}</Text>
       ) : (
@@ -126,8 +142,6 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
           </Pressable>
         </View>
       </View>
-
-      {error ? <Text>{error}</Text> : null}
     </View>
   );
 };
@@ -156,10 +170,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
-  listItem: {
+  accountsListView: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   listItemText: {
     fontSize: 16,
@@ -171,6 +187,29 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 10,
     width: "100%",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+  modalButton: {
+    backgroundColor: "#f00",
+    padding: 10,
+    borderRadius: 5,
+    alignSelf: "center",
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 
