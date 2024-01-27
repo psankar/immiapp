@@ -49,7 +49,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
       .catch((error) => {
         setIsWaiting(false);
         setMsg(error.message);
-      } 
+      });
   };
 
   const renderAccountHandle = ({ item }: { item: String }) => (

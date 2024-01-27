@@ -1,6 +1,7 @@
 export default {
   account_handle: "பயனர்கணக்கு",
   account_invalid_state: "பயனர்கணக்கு முடக்கப்பட்டுள்ளது",
+  add_to_list: "பட்டியலில் சேர்",
   change_language: "Change Language",
   compose:"எழுது",
   create_list: "பட்டியல் உருவாக்கு",
