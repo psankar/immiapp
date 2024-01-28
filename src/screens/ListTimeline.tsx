@@ -1,5 +1,6 @@
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationProp } from "@react-navigation/native";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import BASE_URL from "../config";
 import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
@@ -104,6 +105,18 @@ const ListTimeline = ({ route, navigation }: Props) => {
         <Text style={styles.immiBody}>{"@" + immiInfo.account_handle}</Text>
         <Text style={styles.immiBody}>{immiInfo.body}</Text>
         <Text style={styles.immiTime}>{formatDate(date)}</Text>
+        <MaterialCommunityIcons
+          name="reply"
+          size={18}
+          color="black"
+          onPress={() => {
+            navigation.navigate(t("compose"), {
+              inReplyTo: immiInfo.immi_id,
+              inReplyToBody: immiInfo.body,
+              inReplyToAccount: immiInfo.account_handle,
+            });
+          }}
+        />
       </View>
     );
   };

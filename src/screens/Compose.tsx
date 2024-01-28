@@ -1,26 +1,33 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
 import {
+  Modal,
   Pressable,
+  StyleSheet,
   Text,
   TextInput,
   View,
-  StyleSheet,
-  Modal,
 } from "react-native";
-import { saxios } from "../context/AuthContext";
 import BASE_URL from "../config";
-import { useNavigation } from "@react-navigation/native";
 import { globalConstants as gc } from "../constants/global-constants";
+import { saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
 
-const Compose = () => {
+type Props = {
+  route: any;
+  navigation: NavigationProp<Record<string, object>>;
+};
+
+const Compose = ({ route, navigation }: Props) => {
   const [publishText, setPublishText] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const navigation = useNavigation();
+  const { inReplyTo, inReplyToAccount, inReplyToBody } = route.params;
+
   const handleTextChange = (text: string) => {
     setPublishText(text);
   };
+
   const handlePublish = () => {
     // Logic to publish the text
     saxios
@@ -54,13 +61,20 @@ const Compose = () => {
           </View>
         </Modal>
       )}
+      {inReplyTo && (
+        <Text style={styles.replyPreview}>
+          {t("replying_to")}: @{inReplyToAccount}
+          {"\n\n"}
+          {inReplyToBody}
+        </Text>
+      )}
       <TextInput
         style={styles.textInput}
         value={publishText}
         onChangeText={handleTextChange}
         multiline={true}
         numberOfLines={4}
-        placeholder="Say something nice..."
+        placeholder={t("say_nice_things")}
       />
       <Ionicons name="camera" size={24} color="black" />
       <View style={styles.buttonsInline}>
@@ -97,6 +111,7 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     marginBottom: 16,
     padding: 8,
+    placeholderTextColor: "#999",
   },
   button: {
     padding: 10,
@@ -125,14 +140,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  responseAlert: {
-    padding: 10,
-    marginTop: 20,
-    color: "green",
-  },
-  failure: {
-    color: "red",
-  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -155,6 +162,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  replyPreview: {
+    fontSize: 18,
+    marginBottom: 20,
+    color: "#666",
   },
 });
 

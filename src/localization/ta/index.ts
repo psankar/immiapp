@@ -20,6 +20,7 @@ export default {
   my_lists: "என் பட்டியல்கள்",
   network_error: "இணைப்பில் சிக்கல்",
   password: "கடவுச்சொல்",
+  say_nice_things: "அல்லவை தேய அறம்பெருகும் நல்லவை நாடி இனிய சொலின்",
   sign_in: "உள்ளே போ",
   signout: "வெளியேறு",
   publish: "வெளியிட",

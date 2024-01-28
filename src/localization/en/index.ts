@@ -22,6 +22,7 @@ export default {
   password: "Password",
   publish: "Publish",
   reset: "Reset",
+  say_nice_things: "Say something nice",
   sign_in: "Sign In",
   signout: "Sign Out",
   unknown_error: "Error occured",
