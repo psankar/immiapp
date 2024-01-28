@@ -33,6 +33,7 @@ const Compose = ({ route, navigation }: Props) => {
     saxios
       .post(`${BASE_URL}/immis`, {
         body: publishText,
+        in_reply_to: inReplyTo,
       })
       .then(() => {
         navigation.goBack();
