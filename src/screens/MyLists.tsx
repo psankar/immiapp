@@ -13,7 +13,7 @@ import BASE_URL from "../config";
 import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
 
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, useIsFocused } from "@react-navigation/native";
 import { HeaderActions } from "../components/HeaderActions";
 
 type MyListsProps = {
@@ -50,9 +50,10 @@ export const MyLists = ({ navigation }: MyListsProps) => {
       });
   };
 
+  const isFocused = useIsFocused();
   useEffect(() => {
     fetchLists();
-  }, []);
+  }, [isFocused]);
 
   const renderItem = ({
     item,
@@ -95,7 +96,10 @@ export const MyLists = ({ navigation }: MyListsProps) => {
           <View style={styles.modalContainer}>
             <Text style={styles.modalText}>{error}</Text>
             <Pressable
-              onPress={() => setError(null)}
+              onPress={() => {
+                fetchLists();
+                setError(null);
+              }}
               style={styles.modalButton}
             >
               <Text style={styles.modalButtonText}>OK</Text>
