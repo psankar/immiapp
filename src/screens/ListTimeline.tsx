@@ -61,7 +61,7 @@ const ListTimeline = ({ route, navigation }: Props) => {
             const l = [...newData, ...immiIDs];
             immiIDs = l;
           }
-          console.log(immiIDs, newData);
+          console.debug(immiIDs, newData);
           setImmiIDs(immiIDs);
         }
       } catch (error) {
