@@ -10,6 +10,7 @@ import ManageList from "../screens/ManageList";
 import { MyLists } from "../screens/MyLists";
 import { SignIn } from "../screens/SignIn";
 import { AuthContext, AuthContextType } from "./AuthContext";
+import LanguageSelector from "../components/LanguageSelector";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,7 @@ export const AppNav = () => {
           initialParams={{ list_handle: "", display_name: "" }}
         />
         <Stack.Screen name={t("invite")} component={Invite} />
+        <Stack.Screen name={"Change Language"} component={LanguageSelector} />
       </Stack.Navigator>
     </NavigationContainer>
   );

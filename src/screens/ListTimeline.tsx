@@ -8,12 +8,12 @@ import t from "../localization/i18n";
 import { formatDate } from "../utils/utils";
 
 // TODO: Use more precise types below
-type Props = {
+type ListTimelineProps = {
   route: any;
   navigation: NavigationProp<Record<string, object>>;
 };
 
-const ListTimeline = ({ route, navigation }: Props) => {
+const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
   const { handle, displayName } = route.params;
   const { refreshAuthToken } = useContext<AuthContextType>(AuthContext);
   var [immiIDs, setImmiIDs] = useState<string[]>([]);

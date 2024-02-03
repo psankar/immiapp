@@ -2,7 +2,6 @@ export default {
   account_handle: "Account Handle",
   account_invalid_state: "Account Handle is not accessible now",
   add_to_list: "Add to List",
-  change_language: "Change Language",
   compose: "Compose",
   create_list: "Create List",
   email_address: "Email Address",

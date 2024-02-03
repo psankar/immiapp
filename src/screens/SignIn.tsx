@@ -1,5 +1,7 @@
+import { Ionicons } from "@expo/vector-icons";
+import { NavigationProp, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -12,7 +14,11 @@ import BASE_URL from "../config";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
 import t from "../localization/i18n";
 
-export const SignIn = () => {
+type SignInProps = {
+  navigation: NavigationProp<Record<string, object>>;
+};
+
+export const SignIn = ({ navigation }: SignInProps) => {
   const [accountHandle, setAccountHandle] = useState("");
   const [password, setPassword] = useState("");
   const [isValid, setIsValid] = useState(false);
@@ -20,6 +26,9 @@ export const SignIn = () => {
   const [isWaiting, setIsWaiting] = useState(false);
 
   const { login } = useContext<AuthContextType>(AuthContext);
+
+  const isFocused = useIsFocused();
+  useEffect(() => {}, [isFocused]);
 
   const handleAccountHandleChange = (text: string) => {
     setAccountHandle(text);
@@ -159,6 +168,14 @@ export const SignIn = () => {
       <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
         {t("forgot_password")}
       </Text>
+      <Pressable
+        onPress={() => {
+          navigation.navigate("Change Language", {});
+        }}
+      >
+        <Ionicons name="globe" size={18} color="black" />
+        <Text>{"Change Language"}</Text>
+      </Pressable>
       {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
   );

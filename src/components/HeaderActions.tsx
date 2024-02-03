@@ -1,15 +1,14 @@
 import { Ionicons } from "@expo/vector-icons";
+import { NavigationProp } from "@react-navigation/native";
+import { useState } from "react";
+import { View } from "react-native";
 import {
   Menu,
-  MenuOptions,
   MenuOption,
+  MenuOptions,
   MenuTrigger,
 } from "react-native-popup-menu";
-import { View } from "react-native";
-
-import { NavigationProp } from "@react-navigation/native";
 import t from "../localization/i18n";
-import { useState } from "react";
 
 type HeaderActionsProps = {
   navigation: NavigationProp<Record<string, object>>;
