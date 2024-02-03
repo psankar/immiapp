@@ -173,8 +173,10 @@ export const SignIn = ({ navigation }: SignInProps) => {
           navigation.navigate("Change Language", {});
         }}
       >
-        <Ionicons name="globe" size={18} color="black" />
-        <Text>{"Change Language"}</Text>
+        <View style={styles.languageContainer}>
+          <Ionicons name="globe" size={18} color="black" />
+          <Text>{"Change Language"}</Text>
+        </View>
       </Pressable>
       {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
@@ -217,6 +219,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  languageContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
   },
   input: {
     height: 40,
