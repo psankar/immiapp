@@ -20,21 +20,21 @@ type ManageListProps = {
 };
 
 const ManageList = ({ route, navigation }: ManageListProps) => {
-  const { list_handle, display_name } = route.params;
+  const { listId, displayName } = route.params;
   const [users, setUsers] = useState<String[]>([]);
   const [accountHandle, setAccountHandle] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
   const [isWaiting, setIsWaiting] = useState(false);
 
   useEffect(() => {
-    navigation.setOptions({ title: display_name });
+    navigation.setOptions({ title: displayName });
     refresh();
   }, []);
 
   const refresh = () => {
     setIsWaiting(true);
     saxios
-      .post("/get-list-members", { list_handle })
+      .post("/get-list-members", { list_id: listId })
       .then((response) => {
         setIsWaiting(false);
         setUsers(response.data.account_handles);
@@ -48,7 +48,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
   const handleRemoveUserFromList = (account: String) => {
     setIsWaiting(true);
     saxios
-      .post("/remove-from-list", { list_handle, account_handle: account })
+      .post("/remove-from-list", { listId, account_handle: account })
       .then((response) => {
         setIsWaiting(false);
         if (response.status === 200) {
@@ -83,10 +83,11 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
     }
 
     saxios
-      .post("/add-to-list", { list_handle, account_handle: accountHandle })
+      .post("/add-to-list", { list_id: listId, account_handle: accountHandle })
       .then((response) => {
         if (response.status === 200) {
           setMsg(t("account_added_to_list"));
+          setAccountHandle("");
           refresh();
           return;
         }

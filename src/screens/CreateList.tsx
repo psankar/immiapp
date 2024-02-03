@@ -17,7 +17,6 @@ type CreateListProps = {
 
 const CreateList = ({ navigation }: CreateListProps) => {
   const [listDisplayName, setListDisplayName] = useState("");
-  const [listHandle, setListHandle] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isWaiting, setIsWaiting] = useState(false);
 
@@ -29,19 +28,13 @@ const CreateList = ({ navigation }: CreateListProps) => {
       return;
     }
 
-    if (!listHandleRegex.test(listHandle)) {
-      setError(t("list_handle_invalid"));
-      return;
-    }
-
     setIsWaiting(true);
     setError(null);
 
     // Make network call to create a new list
     saxios
-      .post("/lists", {
+      .post("/create-list", {
         display_name: listDisplayName,
-        handle: listHandle,
       })
       .then((response) => {
         if (response.status === 200) {
@@ -74,13 +67,6 @@ const CreateList = ({ navigation }: CreateListProps) => {
             placeholder={t("list_name_placeholder")}
             value={listDisplayName}
             onChangeText={setListDisplayName}
-          />
-          <Text style={styles.label}>{t("list_handle")}</Text>
-          <TextInput
-            style={styles.input}
-            placeholder={t("list_handle_placeholder")}
-            value={listHandle}
-            onChangeText={setListHandle}
           />
           <Pressable onPress={handleCreateList} style={styles.createListButton}>
             <Text style={styles.createListButtonText}>{t("create_list")}</Text>

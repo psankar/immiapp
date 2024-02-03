@@ -31,7 +31,7 @@ export const AppNav = () => {
           <Stack.Screen name={t("sign_in")} component={SignIn} />
         )}
         <Stack.Screen
-          name={"list_timeline"}
+          name={t("list_timeline")}
           component={ListTimeline}
           initialParams={{ displayName: "", handle: "" }}
         />

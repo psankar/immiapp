@@ -14,7 +14,7 @@ type ListTimelineProps = {
 };
 
 const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
-  const { handle, displayName } = route.params;
+  const { listId, displayName } = route.params;
   const { refreshAuthToken } = useContext<AuthContextType>(AuthContext);
   var [immiIDs, setImmiIDs] = useState<string[]>([]);
 
@@ -35,7 +35,7 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
               Authorization: `Bearer ${localStorage.getItem("authToken")}`,
               "Content-Type": "text/event-stream",
             },
-            body: JSON.stringify({ list_handle: handle }),
+            body: JSON.stringify({ list_id: listId }),
           });
 
           if (response.status === 452) {

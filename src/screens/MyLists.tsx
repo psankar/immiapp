@@ -58,14 +58,14 @@ export const MyLists = ({ navigation }: MyListsProps) => {
   const renderItem = ({
     item,
   }: {
-    item: { handle: string; display_name: string };
+    item: { id: string; display_name: string };
   }) => (
     <View style={styles.listItem}>
       <Pressable
         onPress={() =>
           navigation.navigate(t("list_manage"), {
-            list_handle: item.handle,
-            display_name: item.display_name,
+            listId: item.id,
+            displayName: item.display_name,
           })
         }
       >
@@ -74,9 +74,9 @@ export const MyLists = ({ navigation }: MyListsProps) => {
       <Text style={styles.listItemText}>{item.display_name}</Text>
       <Pressable
         onPress={() =>
-          navigation.navigate("list_timeline", {
+          navigation.navigate(t("list_timeline"), {
+            listId: item.id,
             displayName: item.display_name,
-            handle: item.handle,
           })
         }
       >
