@@ -1,4 +1,4 @@
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationProp } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";

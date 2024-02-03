@@ -1,7 +1,7 @@
 import { NavigationProp } from "@react-navigation/native";
 import i18n from "i18next";
 import React from "react";
-import { FlatList, Pressable, Text, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 type Language = {
   name: string;
@@ -19,14 +19,14 @@ const LanguageList = ({ navigation }: LanguageListProps) => {
   ];
 
   const renderLanguage = ({ item }: { item: Language }) => (
-    <View>
+    <View style={styles.langContainer}>
       <Pressable
         onPress={() => {
           i18n.changeLanguage(item.code);
           navigation.goBack();
         }}
       >
-        <Text>{item.name}</Text>
+        <Text style={styles.langText}>{item.name}</Text>
       </Pressable>
     </View>
   );
@@ -41,5 +41,17 @@ const LanguageList = ({ navigation }: LanguageListProps) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  langContainer: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  langText: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+});
 
 export default LanguageList;
