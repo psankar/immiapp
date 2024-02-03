@@ -23,6 +23,7 @@ const LanguageList = ({ navigation }: LanguageListProps) => {
       <Pressable
         onPress={() => {
           i18n.changeLanguage(item.code);
+          localStorage.setItem("lang", item.code);
           navigation.goBack();
         }}
       >

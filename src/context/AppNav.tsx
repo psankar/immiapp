@@ -11,11 +11,16 @@ import { MyLists } from "../screens/MyLists";
 import { SignIn } from "../screens/SignIn";
 import { AuthContext, AuthContextType } from "./AuthContext";
 import LanguageSelector from "../components/LanguageSelector";
+import i18n from "i18next";
 
 const Stack = createNativeStackNavigator();
 
 export const AppNav = () => {
   const { isLoggedIn } = useContext<AuthContextType>(AuthContext);
+
+  if (localStorage.getItem("lang")) {
+    i18n.changeLanguage(localStorage.getItem("lang") || "en");
+  }
 
   return (
     <NavigationContainer>
