@@ -117,7 +117,7 @@ export const MyLists = ({ navigation }: MyListsProps) => {
           <FlatList
             data={lists}
             renderItem={renderItem}
-            keyExtractor={(item) => item.handle}
+            keyExtractor={(item) => item.id}
           />
           <View>
             <Pressable
