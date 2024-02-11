@@ -11,6 +11,10 @@ import {
   View,
 } from "react-native";
 import BASE_URL from "../config";
+import {
+  isValidAccountHandle,
+  isValidPassword,
+} from "../constants/global-constants";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
 import t from "../localization/i18n";
 
@@ -41,10 +45,8 @@ export const SignIn = ({ navigation }: SignInProps) => {
   };
 
   const validateInputs = (accountHandle: string, password: string) => {
-    const accountHandleRegex = /^[a-z0-9]*[a-z][a-z0-9]*$/;
-    const passwordRegex = /^\S{8,32}$/;
     setIsValid(
-      accountHandleRegex.test(accountHandle) && passwordRegex.test(password)
+      isValidAccountHandle(accountHandle) && isValidPassword(password)
     );
   };
 
@@ -128,7 +130,7 @@ export const SignIn = ({ navigation }: SignInProps) => {
   };
 
   const handleForgotPassword = () => {
-    // handle forgot password
+    navigation.navigate(t("forgot_password"), {});
   };
 
   if (isWaiting) {
@@ -165,9 +167,11 @@ export const SignIn = ({ navigation }: SignInProps) => {
       >
         <Text style={styles.buttonText}>{t("sign_in")}</Text>
       </Pressable>
-      <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
-        {t("forgot_password")}
-      </Text>
+      <Pressable>
+        <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
+          {t("forgot_password")}
+        </Text>
+      </Pressable>
       <Pressable
         onPress={() => {
           navigation.navigate("Change Language", {});

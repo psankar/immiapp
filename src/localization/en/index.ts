@@ -2,6 +2,8 @@ export default {
   account_handle: "Account Handle",
   account_invalid_state: "Account Handle is not accessible now",
   add_to_list: "Add to List",
+  check_password_reset_mail:
+    "Check the email associated with this account for password reset link",
   compose: "Compose",
   create_list: "Create List",
   email_address: "Email Address",

@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   Modal,
@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import BASE_URL from "../config";
-import { globalConstants as gc } from "../constants/global-constants";
+import { immiMaxLen, immiMinLen } from "../constants/global-constants";
 import { saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
 
@@ -82,8 +82,7 @@ const Compose = ({ route, navigation }: Props) => {
         <Pressable
           style={[styles.button, styles.publishButton]}
           disabled={
-            publishText.length > gc.immiMaxLen ||
-            publishText.length < gc.immiMinLen
+            publishText.length > immiMaxLen || publishText.length < immiMinLen
           }
           onPress={handlePublish}
         >

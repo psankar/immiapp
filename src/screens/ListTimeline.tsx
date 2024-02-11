@@ -3,9 +3,9 @@ import { NavigationProp } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import BASE_URL from "../config";
+import { formatDate } from "../constants/global-constants";
 import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
-import { formatDate } from "../utils/utils";
 
 // TODO: Use more precise types below
 type ListTimelineProps = {
