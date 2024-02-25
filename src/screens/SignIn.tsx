@@ -100,6 +100,9 @@ export const SignIn = ({ navigation }: SignInProps) => {
               }
               console.error(error);
               setError(t("unknown_error"));
+            })
+            .finally(() => {
+              setPassword("");
             });
         } else {
           console.error(response);
@@ -126,6 +129,7 @@ export const SignIn = ({ navigation }: SignInProps) => {
       })
       .finally(() => {
         setIsWaiting(false);
+        setPassword("");
       });
   };
 
