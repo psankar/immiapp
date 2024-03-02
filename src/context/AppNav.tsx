@@ -41,7 +41,7 @@ export const AppNav = () => {
         <Stack.Screen
           name={t("list_manage")}
           component={ManageList}
-          initialParams={{ list_handle: "", display_name: "" }}
+          initialParams={{ display_name: "" }}
         />
         <Stack.Screen name={t("invite")} component={Invite} />
         <Stack.Screen name={"Change Language"} component={LanguageSelector} />

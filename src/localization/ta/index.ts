@@ -6,7 +6,7 @@ export default {
   account_invalid_state: "பயனர்கணக்கு முடக்கப்பட்டுள்ளது",
   add_to_list: "பட்டியலில் சேர்",
   check_password_reset_mail:
-    "இந்தப் பயனர்கணக்குக்குத் தொடர்பான மின்னஞ்சலைப் பார்க்கவும்",
+    "இப்பயனர்கணக்குக்குத் தொடர்பான மின்னஞ்சலைப் பார்க்கவும்",
   compose: "எழுது",
   create_list: "பட்டியல் உருவாக்கு",
   email_address: "மின்னஞ்சல் முகவரி",
@@ -17,8 +17,6 @@ export default {
   invite_impossible_now: "இப்போதைக்கு ஆள்சேர்க்க முடியாது",
   list_name: "பட்டியலின் பெயர்",
   list_name_placeholder: "அறிஞர்கள்",
-  list_handle: "பட்டியலின் முகவரி",
-  list_handle_placeholder: "பட்டியலின் முகவரியை உள்ளிடவும்",
   list_timeline: "பட்டியல் நேரக்கோடு",
   lists_fetch_failed: "பட்டியல்களைப் பெறுவதில் சிக்கல்",
   my_lists: "என் பட்டியல்கள்",
