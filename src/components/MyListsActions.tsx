@@ -11,11 +11,11 @@ import {
 import { AuthContext, AuthContextType } from "../context/AuthContext";
 import t from "../localization/i18n";
 
-type HeaderActionsProps = {
+type MyListsActionsProps = {
   navigation: NavigationProp<Record<string, object>>;
 };
 
-export const MyListsActions = ({ navigation }: HeaderActionsProps) => {
+export const MyListsActions = ({ navigation }: MyListsActionsProps) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const { logout } = useContext<AuthContextType>(AuthContext);
 
