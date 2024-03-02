@@ -14,7 +14,7 @@ import { saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
 
 import { NavigationProp, useIsFocused } from "@react-navigation/native";
-import { HeaderActions } from "../components/HeaderActions";
+import { MyListsActions } from "../components/MyListsActions";
 
 type MyListsProps = {
   navigation: NavigationProp<Record<string, object>>;
@@ -117,7 +117,7 @@ export const MyLists = ({ navigation }: MyListsProps) => {
   return (
     <View style={styles.container}>
       <>
-        <HeaderActions navigation={navigation} />
+        <MyListsActions navigation={navigation} />
         <FlatList
           data={lists}
           renderItem={renderItem}
