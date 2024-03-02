@@ -48,7 +48,7 @@ const ManageList = ({ route, navigation }: ManageListProps) => {
   const handleRemoveUserFromList = (account: String) => {
     setIsWaiting(true);
     saxios
-      .post("/remove-from-list", { listId, account_handle: account })
+      .post("/remove-from-list", { list_id: listId, account_handle: account })
       .then((response) => {
         setIsWaiting(false);
         if (response.status === 200) {

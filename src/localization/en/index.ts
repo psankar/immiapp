@@ -1,4 +1,7 @@
 export default {
+  account_added_to_list: "Account added to list",
+  account_not_found: "Account not found",
+  account_removed_from_list: "Account removed from list",
   account_handle: "Account Handle",
   account_invalid_state: "Account Handle is not accessible now",
   add_to_list: "Add to List",

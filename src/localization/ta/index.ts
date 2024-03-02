@@ -1,4 +1,7 @@
 export default {
+  account_added_to_list: "பயனர்கணக்கு பட்டியலில் சேர்க்கப்பட்டது",
+  account_not_found: "பயனர்கணக்கு கிட்டவில்லை",
+  account_removed_from_list: "பயனர்கணக்கு பட்டியலிலிருந்து நீக்கப்பட்டது",
   account_handle: "பயனர்கணக்கு",
   account_invalid_state: "பயனர்கணக்கு முடக்கப்பட்டுள்ளது",
   add_to_list: "பட்டியலில் சேர்",
