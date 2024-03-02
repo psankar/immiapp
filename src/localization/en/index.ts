@@ -10,7 +10,7 @@ export default {
   email_invalid: "Invalid Email Address",
   forgot_password: "Forgot Password",
   invalid_credentials: "Invalid Account Handle / Password",
-  invite: "Invite",
+  invite: "Invite Others",
   invite_impossible_now: "Cannot invite now",
   list_name: "List Name",
   list_name_placeholder: "Technologists",

@@ -10,6 +10,7 @@ import {
 } from "react-native-popup-menu";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
 import t from "../localization/i18n";
+import { StyleSheet } from "react-native";
 
 type MyListsActionsProps = {
   navigation: NavigationProp<Record<string, object>>;
@@ -34,20 +35,31 @@ export const MyListsActions = ({ navigation }: MyListsActionsProps) => {
           opened={menuVisible}
           onBackdropPress={() => setMenuVisible(false)}
         >
-          <MenuTrigger text="Menu" />
+          <MenuTrigger />
           <MenuOptions>
             <MenuOption
               onSelect={() => {
                 setMenuVisible(false);
                 navigation.navigate(t("invite"), {});
               }}
-              text={t("Invite")}
+              text={t("invite")}
+              style={styles.menuOption}
             />
             <View style={{ height: 3, backgroundColor: "#E0E0E0" }} />
-            <MenuOption onSelect={() => logout()} text={t("signout")} />
+            <MenuOption
+              onSelect={() => logout()}
+              text={t("signout")}
+              style={styles.menuOption}
+            />
           </MenuOptions>
         </Menu>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  menuOption: {
+    height: 40,
+  },
+});
