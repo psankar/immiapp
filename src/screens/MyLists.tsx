@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import BASE_URL from "../config";
-import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
+import { saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
 
 import { NavigationProp, useIsFocused } from "@react-navigation/native";
@@ -24,8 +24,6 @@ export const MyLists = ({ navigation }: MyListsProps) => {
   const [lists, setLists] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const { logout } = useContext<AuthContextType>(AuthContext);
 
   const fetchLists = async () => {
     saxios
@@ -85,55 +83,55 @@ export const MyLists = ({ navigation }: MyListsProps) => {
     </View>
   );
 
-  const handleSignout = () => {
-    logout();
-  };
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        {error && (
+          <Modal visible={true} animationType="slide">
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalText}>{error}</Text>
+              <Pressable
+                onPress={() => {
+                  fetchLists();
+                  setError(null);
+                }}
+                style={styles.modalButton}
+              >
+                <Text style={styles.modalButtonText}>OK</Text>
+              </Pressable>
+            </View>
+          </Modal>
+        )}
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      {error && (
-        <Modal visible={true} animationType="slide">
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>{error}</Text>
-            <Pressable
-              onPress={() => {
-                fetchLists();
-                setError(null);
-              }}
-              style={styles.modalButton}
-            >
-              <Text style={styles.modalButtonText}>OK</Text>
-            </Pressable>
-          </View>
-        </Modal>
-      )}
-      {isLoading ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0000ff" />
+      <>
+        <HeaderActions navigation={navigation} />
+        <FlatList
+          data={lists}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+        <View>
+          <Pressable
+            style={styles.createListButton}
+            onPress={() => navigation.navigate(t("create_list"), {})}
+          >
+            <Text style={styles.createListButtonText}>{t("create_list")}</Text>
+          </Pressable>
         </View>
-      ) : (
-        <>
-          <HeaderActions navigation={navigation} />
-          <FlatList
-            data={lists}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-          />
-          <View>
-            <Pressable
-              style={styles.createListButton}
-              onPress={() => navigation.navigate(t("create_list"), {})}
-            >
-              <Text style={styles.createListButtonText}>
-                {t("create_list")}
-              </Text>
-            </Pressable>
-            <Pressable onPress={handleSignout} style={styles.signoutButton}>
-              <Text style={styles.signoutButtonText}>{t("signout")}</Text>
-            </Pressable>
-          </View>
-        </>
-      )}
+      </>
     </View>
   );
 };
@@ -170,18 +168,6 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontSize: 18,
-  },
-  signoutButton: {
-    backgroundColor: "#f00",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
-    alignSelf: "center",
-  },
-  signoutButtonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
   },
   modalContainer: {
     flex: 1,

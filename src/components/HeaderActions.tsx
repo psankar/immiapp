@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationProp } from "@react-navigation/native";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View } from "react-native";
 import {
   Menu,
@@ -9,6 +9,7 @@ import {
   MenuTrigger,
 } from "react-native-popup-menu";
 import t from "../localization/i18n";
+import { AuthContextType, AuthContext } from "../context/AuthContext";
 
 type HeaderActionsProps = {
   navigation: NavigationProp<Record<string, object>>;
@@ -16,6 +17,7 @@ type HeaderActionsProps = {
 
 export const HeaderActions = ({ navigation }: HeaderActionsProps) => {
   const [menuVisible, setMenuVisible] = useState(false);
+  const { logout } = useContext<AuthContextType>(AuthContext);
 
   return (
     <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
@@ -41,10 +43,8 @@ export const HeaderActions = ({ navigation }: HeaderActionsProps) => {
               }}
               text={t("Invite")}
             />
-            <MenuOption
-              onSelect={() => console.log("Option 2 clicked")}
-              text="Option 2"
-            />
+            <View style={{ height: 3, backgroundColor: "#E0E0E0" }} />
+            <MenuOption onSelect={() => logout()} text={t("signout")} />
           </MenuOptions>
         </Menu>
       )}
