@@ -68,6 +68,9 @@ export const AuthProvider = ({ children }: AuthContextProviderProps) => {
             logout();
             throw error;
           }
+        } else if (error.response?.status === 401) {
+          logout();
+          throw error;
         }
 
         return Promise.reject(error);
