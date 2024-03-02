@@ -13,7 +13,7 @@ export default {
   invite: "ஆள்சேர்",
   invite_impossible_now: "இப்போதைக்கு ஆள்சேர்க்க முடியாது",
   list_name: "பட்டியலின் பெயர்",
-  list_name_placeholder: "பட்டியலின் பெயரை உள்ளிடவும்",
+  list_name_placeholder: "அறிஞர்கள்",
   list_handle: "பட்டியலின் முகவரி",
   list_handle_placeholder: "பட்டியலின் முகவரியை உள்ளிடவும்",
   list_timeline: "பட்டியல் நேரக்கோடு",

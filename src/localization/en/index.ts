@@ -13,7 +13,7 @@ export default {
   invite: "Invite",
   invite_impossible_now: "Cannot invite now",
   list_name: "List Name",
-  list_name_placeholder: "Enter List Name",
+  list_name_placeholder: "Technologists",
   list_handle: "List Handle",
   list_handle_placeholder: "Enter List Handle",
   list_timeline: "List Timeline",
