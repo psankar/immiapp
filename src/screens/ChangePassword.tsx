@@ -47,6 +47,7 @@ export const ChangePassword = ({ navigation }: ChangePasswordProps) => {
     repeatPassword: string
   ) => {
     setError("");
+    setIsValid(false);
 
     if (!isValidPassword(existingPassword)) {
       setError(t("invalid_old_password"));
