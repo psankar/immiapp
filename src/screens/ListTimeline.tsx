@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { NavigationProp } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
@@ -107,7 +107,7 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
         <Text style={styles.immiTime}>{formatDate(date)}</Text>
         <MaterialCommunityIcons
           name="reply"
-          size={18}
+          size={22}
           color="black"
           onPress={() => {
             navigation.navigate(t("compose"), {
@@ -115,6 +115,15 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
               inReplyToBody: immiInfo.body,
               inReplyToAccount: immiInfo.account_handle,
             });
+          }}
+        />
+        <Ionicons
+          name="repeat"
+          size={22}
+          color="grey"
+          disabled={true}
+          onPress={() => {
+            console.log("todo repeat");
           }}
         />
       </View>
