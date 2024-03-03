@@ -46,12 +46,30 @@ export const ChangePassword = ({ navigation }: ChangePasswordProps) => {
     newPassword: string,
     repeatPassword: string
   ) => {
-    console.debug();
-    setIsValid(
-      isValidPassword(existingPassword) &&
-        isValidPassword(newPassword) &&
-        newPassword === repeatPassword
-    );
+    setError("");
+
+    if (!isValidPassword(existingPassword)) {
+      setError(t("invalid_old_password"));
+      return;
+    }
+
+    if (!newPassword) {
+      // Allow the user to type atleast one character before showing the error
+      return;
+    }
+
+    if (!isValidPassword(newPassword)) {
+      setError(t("invalid_new_password"));
+      return;
+    }
+
+    if (repeatPassword && newPassword !== repeatPassword) {
+      setError(t("passwords_dont_match"));
+      return;
+    }
+
+    setError("");
+    setIsValid(true);
   };
 
   const handleChangePassword = async () => {
