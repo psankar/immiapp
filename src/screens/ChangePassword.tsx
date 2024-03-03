@@ -64,7 +64,12 @@ export const ChangePassword = ({ navigation }: ChangePasswordProps) => {
       return;
     }
 
-    if (repeatPassword && newPassword !== repeatPassword) {
+    if (!repeatPassword) {
+      // Allow the user to type atleast one character before showing the error
+      return;
+    }
+
+    if (newPassword !== repeatPassword) {
       setError(t("passwords_dont_match"));
       return;
     }
@@ -99,7 +104,7 @@ export const ChangePassword = ({ navigation }: ChangePasswordProps) => {
           setPasswordChanged(true);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setError(t("password_change_failed"));
       })
       .finally(() => {
