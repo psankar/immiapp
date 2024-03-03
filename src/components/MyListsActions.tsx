@@ -45,6 +45,14 @@ export const MyListsActions = ({ navigation }: MyListsActionsProps) => {
               text={t("invite")}
               style={styles.menuOption}
             />
+            <MenuOption
+              onSelect={() => {
+                setMenuVisible(false);
+                navigation.navigate(t("change_password"), {});
+              }}
+              text={t("change_password")}
+              style={styles.menuOption}
+            />
             <View style={{ height: 3, backgroundColor: "#E0E0E0" }} />
             <MenuOption
               onSelect={() => logout()}

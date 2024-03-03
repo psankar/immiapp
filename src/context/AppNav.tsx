@@ -13,6 +13,7 @@ import { AuthContext, AuthContextType } from "./AuthContext";
 import LanguageSelector from "../components/LanguageSelector";
 import i18n from "i18next";
 import ForgotPassword from "../screens/ForgotPassword";
+import { ChangePassword } from "../screens/ChangePassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,7 @@ export const AppNav = () => {
         <Stack.Screen name={t("invite")} component={Invite} />
         <Stack.Screen name={"Change Language"} component={LanguageSelector} />
         <Stack.Screen name={t("forgot_password")} component={ForgotPassword} />
+        <Stack.Screen name={t("change_password")} component={ChangePassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );
