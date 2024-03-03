@@ -96,12 +96,10 @@ export const ChangePassword = ({ navigation }: ChangePasswordProps) => {
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log("Password change succeeded", response);
           setPasswordChanged(true);
         }
       })
       .catch((error) => {
-        console.error("Password change failed", error);
         setError(t("password_change_failed"));
       })
       .finally(() => {
