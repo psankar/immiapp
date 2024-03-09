@@ -120,10 +120,9 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
         <Ionicons
           name="repeat"
           size={22}
-          color="grey"
-          disabled={true}
           onPress={() => {
-            console.log("todo repeat");
+            // TODO: Show some visual feedback
+            saxios.post("/repeat-immi/" + immiInfo.immi_id);
           }}
         />
       </View>
