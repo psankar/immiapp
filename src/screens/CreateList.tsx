@@ -46,6 +46,10 @@ const CreateList = ({ navigation }: CreateListProps) => {
       })
       .catch((error) => {
         console.error(error);
+        if (error.response?.status === 401) {
+          navigation.navigate(t("sign_in"), {});
+          return;
+        }
         setError(t("list_create_failed"));
       })
       .finally(() => {
