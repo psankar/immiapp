@@ -1,11 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationProp, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
+import { styled } from "nativewind";
 import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -17,6 +17,10 @@ import {
 } from "../constants/global-constants";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
 import t from "../localization/i18n";
+
+const StyledView = styled(View);
+const StyledText = styled(Text);
+const StyledTextInput = styled(TextInput);
 
 type SignInProps = {
   navigation: NavigationProp<Record<string, object>>;
@@ -139,116 +143,61 @@ export const SignIn = ({ navigation }: SignInProps) => {
 
   if (isWaiting) {
     return (
-      <View style={styles.loadingContainer}>
+      <View>
         <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{t("account_handle")}</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="handle1"
-        placeholderTextColor="#999"
-        value={accountHandle}
-        onChangeText={handleAccountHandleChange}
-      />
-      <Text style={styles.label}>{t("password")}</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#999"
-        value={password}
-        onChangeText={handlePasswordChange}
-        secureTextEntry
-      />
-      <Pressable
-        onPress={handleSignIn}
-        disabled={!isValid}
-        style={isValid ? styles.signInEnabled : styles.signInDisabled}
-      >
-        <Text style={styles.buttonText}>{t("sign_in")}</Text>
-      </Pressable>
-      <Pressable>
-        <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
-          {t("forgot_password")}
-        </Text>
-      </Pressable>
-      <Pressable
-        onPress={() => {
-          navigation.navigate("Change Language", {});
-        }}
-      >
-        <View style={styles.languageContainer}>
-          <Ionicons name="globe" size={18} color="black" />
-          <Text>{"Change Language"}</Text>
-        </View>
-      </Pressable>
-      {error ? <Text style={styles.error}>{error}</Text> : null}
-    </View>
+    <StyledView className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <StyledView className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <StyledText className="block text-sm font-medium leading-6 text-gray-900">
+          {t("account_handle")}
+        </StyledText>
+        <StyledTextInput
+          placeholder="handle1"
+          placeholderTextColor="#999"
+          value={accountHandle}
+          onChangeText={handleAccountHandleChange}
+          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        />
+        <StyledText className="block text-sm font-medium leading-6 text-gray-900">
+          {t("password")}
+        </StyledText>
+        <StyledTextInput
+          placeholder="Password"
+          placeholderTextColor="#999"
+          value={password}
+          onChangeText={handlePasswordChange}
+          secureTextEntry
+          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        />
+        <Pressable onPress={handleSignIn} disabled={!isValid}>
+          <StyledText className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            {t("sign_in")}
+          </StyledText>
+        </Pressable>
+        <Pressable>
+          <StyledText
+            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onPress={handleForgotPassword}
+          >
+            {t("forgot_password")}
+          </StyledText>
+        </Pressable>
+        <Pressable
+          onPress={() => {
+            navigation.navigate("Change Language", {});
+          }}
+        >
+          <StyledView>
+            <Ionicons name="globe" size={18} color="black" />
+            <StyledText>{"Change Language"}</StyledText>
+          </StyledView>
+        </Pressable>
+        {error ? <StyledText>{error}</StyledText> : null}
+      </StyledView>
+    </StyledView>
   );
 };
-
-const styles = StyleSheet.create({
-  signInEnabled: {
-    backgroundColor: "#007AFF",
-    borderRadius: 5,
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  signInDisabled: {
-    backgroundColor: "#999",
-    borderRadius: 5,
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 20,
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  languageContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-  },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 20,
-    padding: 10,
-    width: "100%",
-  },
-  forgotPassword: {
-    marginTop: 20,
-    color: "blue",
-    textDecorationLine: "underline",
-  },
-  error: {
-    color: "red",
-    marginTop: 20,
-  },
-});
