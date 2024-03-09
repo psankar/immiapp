@@ -21,6 +21,7 @@ import t from "../localization/i18n";
 const StyledView = styled(View);
 const StyledText = styled(Text);
 const StyledTextInput = styled(TextInput);
+const StyledPressable = styled(Pressable);
 
 type SignInProps = {
   navigation: NavigationProp<Record<string, object>>;
@@ -150,53 +151,58 @@ export const SignIn = ({ navigation }: SignInProps) => {
   }
 
   return (
-    <StyledView className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <StyledView className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <StyledText className="block text-sm font-medium leading-6 text-gray-900">
+    <StyledView className="flex-1 justify-center items-center bg-gray-100">
+      <StyledView className="w-4/5 bg-white rounded-lg shadow-lg p-8">
+        <StyledText className="text-lg font-bold mb-4">
           {t("account_handle")}
         </StyledText>
         <StyledTextInput
+          className="border border-gray-300 rounded-lg p-2 mb-4"
           placeholder="handle1"
           placeholderTextColor="#999"
           value={accountHandle}
           onChangeText={handleAccountHandleChange}
-          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         />
-        <StyledText className="block text-sm font-medium leading-6 text-gray-900">
+        <StyledText className="text-lg font-bold mb-4">
           {t("password")}
         </StyledText>
         <StyledTextInput
+          className="border border-gray-300 rounded-lg p-2 mb-4"
           placeholder="Password"
           placeholderTextColor="#999"
           value={password}
           onChangeText={handlePasswordChange}
           secureTextEntry
-          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         />
-        <Pressable onPress={handleSignIn} disabled={!isValid}>
-          <StyledText className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-            {t("sign_in")}
-          </StyledText>
-        </Pressable>
-        <Pressable>
+        <StyledPressable
+          onPress={handleSignIn}
+          disabled={!isValid}
+          className="bg-blue-500 text-white rounded-lg p-2 mb-4"
+        >
+          <StyledText>{t("sign_in")}</StyledText>
+        </StyledPressable>
+        <StyledPressable>
           <StyledText
-            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onPress={handleForgotPassword}
+            className="text-blue-500 underline"
           >
             {t("forgot_password")}
           </StyledText>
-        </Pressable>
-        <Pressable
+        </StyledPressable>
+        <StyledPressable
           onPress={() => {
             navigation.navigate("Change Language", {});
           }}
+          className="flex items-center mt-4"
         >
-          <StyledView>
+          <StyledView className="flex items-center">
             <Ionicons name="globe" size={18} color="black" />
-            <StyledText>{"Change Language"}</StyledText>
+            <StyledText className="ml-2">{"Change Language"}</StyledText>
           </StyledView>
-        </Pressable>
-        {error ? <StyledText>{error}</StyledText> : null}
+        </StyledPressable>
+        {error ? (
+          <StyledText className="text-red-500 mt-4">{error}</StyledText>
+        ) : null}
       </StyledView>
     </StyledView>
   );
