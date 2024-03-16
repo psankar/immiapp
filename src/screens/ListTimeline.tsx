@@ -16,11 +16,7 @@ type ListTimelineProps = {
 const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
   const { listId, displayName } = route.params;
   const { refreshAuthToken } = useContext<AuthContextType>(AuthContext);
-  var [immiIDs, setImmiIDs] = useState<string[]>([]);
-
-  // TODO: Use ImmiInfo type from documented API schema instead of "any" below
-  // TODO: The immiInfoCache should be persisted and size limited
-  var [immiInfoCache, setImmiInfoCache] = useState<Record<string, any>>({});
+  var [immiInfos, setImmiInfos] = useState<any[]>([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -58,11 +54,11 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
           const text = decoder.decode(value, { stream: true });
           const newData = JSON.parse(text);
           if (newData && newData.length > 0) {
-            const l = [...newData, ...immiIDs];
-            immiIDs = l;
+            const l = [...newData, ...immiInfos];
+            immiInfos = l;
           }
-          console.debug(immiIDs, newData);
-          setImmiIDs(immiIDs);
+          console.debug(immiInfos, newData);
+          setImmiInfos(immiInfos);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -76,28 +72,8 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
     };
   }, []);
 
-  const fetchImmiInfo = async (immiID: string) => {
-    try {
-      const response = await saxios.get(`/immi/${immiID}`);
-      const immiInfo: any = response.data;
-      setImmiInfoCache((prevCache) => ({
-        ...prevCache,
-        [immiID]: immiInfo,
-      }));
-    } catch (error) {
-      // TODO: Handle errors better here and for
-      // all cases (invalid immiID, deleted immiID, etc.)
-      console.error("Error fetching immiInfo:", error);
-    }
-  };
-
-  const renderImmiID = ({ item }: { item: string }) => {
-    const immiInfo = immiInfoCache[item];
-    if (!immiInfo) {
-      fetchImmiInfo(item);
-      return null;
-    }
-
+  const renderImmi = (items: any) => {
+    var immiInfo = items.item;
     var date = new Date(immiInfo.time);
 
     return (
@@ -129,12 +105,13 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
     );
   };
 
+  console.log("immiInfos", immiInfos);
   return (
     <View>
       <FlatList
-        data={immiIDs}
-        renderItem={renderImmiID}
-        keyExtractor={(item) => item}
+        data={immiInfos}
+        renderItem={renderImmi}
+        keyExtractor={(item) => item.item}
       />
     </View>
   );
