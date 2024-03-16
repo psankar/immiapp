@@ -98,20 +98,22 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
             });
           }}
         />
+        <Text>{immiInfo.reply_count > 0 ? immiInfo.reply_count : ""}</Text>
         <Ionicons
           name="repeat"
           size={22}
           color={immiInfo.is_repeated_by_me ? "blue" : "black"}
           onPress={() => {
-            // TODO: Show some visual feedback
             saxios.post("/repeat-immi/" + immiInfo.immi_id);
           }}
         />
+        <Text>
+          {immiInfo.repeated_count > 0 ? immiInfo.repeated_count : ""}
+        </Text>
       </View>
     );
   };
 
-  console.log("immiInfos", immiInfos);
   return (
     <View>
       <FlatList
