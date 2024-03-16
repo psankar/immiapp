@@ -78,6 +78,11 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
 
     return (
       <View style={styles.immiContainer}>
+        {immiInfo.repeater_handle ? (
+          <Text style={styles.immiBody}>
+            t("repeated_by") immiInfo.repeater_handle
+          </Text>
+        ) : null}
         <Text style={styles.immiBody}>{"@" + immiInfo.account_handle}</Text>
         <Text style={styles.immiBody}>{immiInfo.body}</Text>
         <Text style={styles.immiTime}>{formatDate(date)}</Text>
@@ -96,6 +101,7 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
         <Ionicons
           name="repeat"
           size={22}
+          color={immiInfo.is_repeated_by_me ? "blue" : "black"}
           onPress={() => {
             // TODO: Show some visual feedback
             saxios.post("/repeat-immi/" + immiInfo.immi_id);
