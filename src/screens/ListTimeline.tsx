@@ -80,7 +80,7 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
       <View style={styles.immiContainer}>
         {immiInfo.repeater_handle ? (
           <Text style={styles.immiBody}>
-            t("repeated_by") immiInfo.repeater_handle
+            {t("repeated_by") + " " + immiInfo.repeater_handle}
           </Text>
         ) : null}
         <Text style={styles.immiBody}>{"@" + immiInfo.account_handle}</Text>

@@ -36,6 +36,7 @@ export default {
   sign_in: "உள்ளே போ",
   signout: "வெளியேறு",
   publish: "வெளியிடு",
+  repeated_by: "மீள்பதிவு செய்தவர்",
   reset: "மீட்டமை",
   unknown_error: "பிழை ஏற்பட்டுள்ளது",
   wrong_credentials: "தவறான பயனர்கணக்கு / கடவுச்சொல்",
