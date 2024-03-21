@@ -140,8 +140,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    justifyContent: "center",
+    alignSelf: "center",
+    minWidth: "70%",
+    padding: 60,
   },
   createListButton: {
     backgroundColor: "#007AFF",

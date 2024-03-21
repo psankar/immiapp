@@ -214,13 +214,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignSelf: "center",
     backgroundColor: "#fff",
-    padding: 20,
+    padding: 60,
+    minWidth: "70%",
   },
   label: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 16,
     marginBottom: 10,
   },
   loadingContainer: {
@@ -235,12 +235,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   input: {
-    height: 40,
-    borderColor: "gray",
+    flex: 1,
+    borderColor: "#ccc",
     borderWidth: 1,
+    padding: 20,
+    borderRadius: 12,
+    maxHeight: 40,
     marginBottom: 20,
-    padding: 10,
-    width: "100%",
   },
   forgotPassword: {
     marginTop: 20,
