@@ -222,7 +222,8 @@ const styles = StyleSheet.create({
     minWidth: "70%",
   },
   label: {
-    fontSize: 16,
+    fontSize: 12,
+    fontWeight: "bold",
     marginBottom: 10,
   },
   loadingContainer: {
