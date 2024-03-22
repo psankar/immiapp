@@ -14,6 +14,7 @@ import LanguageSelector from "../components/LanguageSelector";
 import i18n from "i18next";
 import ForgotPassword from "../screens/ForgotPassword";
 import { ChangePassword } from "../screens/ChangePassword";
+import React from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +31,11 @@ export const AppNav = () => {
         {isLoggedIn ? (
           <Stack.Screen name={t("my_lists")} component={MyLists} />
         ) : (
-          <Stack.Screen name={t("sign_in")} component={SignIn} />
+          <Stack.Screen
+            name={t("sign_in")}
+            component={SignIn}
+            options={{ headerShown: false }}
+          />
         )}
         <Stack.Screen
           name={t("list_timeline")}
