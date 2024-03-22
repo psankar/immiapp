@@ -34,12 +34,13 @@ export const SignIn = ({ navigation }: SignInProps) => {
   const isFocused = useIsFocused();
   useEffect(() => {}, [isFocused]);
 
-  const handleAccountHandleChange = (text: string) => {
+  const onAccountHandleChange = (text: string) => {
+    text = text.toLowerCase().replace(/\s+/g, "");
     setAccountHandle(text);
     validateInputs(text, password);
   };
 
-  const handlePasswordChange = (text: string) => {
+  const onPasswordChange = (text: string) => {
     setPassword(text);
     validateInputs(accountHandle, text);
   };
@@ -154,7 +155,8 @@ export const SignIn = ({ navigation }: SignInProps) => {
           placeholder="handle1"
           placeholderTextColor="#999"
           value={accountHandle}
-          onChangeText={handleAccountHandleChange}
+          onChangeText={(text) => onAccountHandleChange(text)}
+          autoCapitalize="none"
         />
         <Text style={styles.label}>{t("password")}</Text>
         <TextInput
@@ -162,7 +164,8 @@ export const SignIn = ({ navigation }: SignInProps) => {
           placeholder="Password"
           placeholderTextColor="#999"
           value={password}
-          onChangeText={handlePasswordChange}
+          onChangeText={onPasswordChange}
+          autoCapitalize="none"
           secureTextEntry
         />
         <Pressable
@@ -195,7 +198,7 @@ export const SignIn = ({ navigation }: SignInProps) => {
 
 const styles = StyleSheet.create({
   signInEnabled: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "darkviolet",
     borderRadius: 9,
     padding: 10,
     alignItems: "center",
