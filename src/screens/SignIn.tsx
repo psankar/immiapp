@@ -146,47 +146,49 @@ export const SignIn = ({ navigation }: SignInProps) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{t("account_handle")}</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="handle1"
-        placeholderTextColor="#999"
-        value={accountHandle}
-        onChangeText={handleAccountHandleChange}
-      />
-      <Text style={styles.label}>{t("password")}</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#999"
-        value={password}
-        onChangeText={handlePasswordChange}
-        secureTextEntry
-      />
-      <Pressable
-        onPress={handleSignIn}
-        disabled={!isValid}
-        style={isValid ? styles.signInEnabled : styles.signInDisabled}
-      >
-        <Text style={styles.buttonText}>{t("sign_in")}</Text>
-      </Pressable>
-      <Pressable>
-        <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
-          {t("forgot_password")}
-        </Text>
-      </Pressable>
-      <Pressable
-        onPress={() => {
-          navigation.navigate("Change Language", {});
-        }}
-      >
-        <View style={styles.languageContainer}>
-          <Ionicons name="globe" size={18} color="black" />
-          <Text>{"Change Language"}</Text>
-        </View>
-      </Pressable>
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+    <View style={styles.viewport}>
+      <View style={styles.container}>
+        <Text style={styles.label}>{t("account_handle")}</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="handle1"
+          placeholderTextColor="#999"
+          value={accountHandle}
+          onChangeText={handleAccountHandleChange}
+        />
+        <Text style={styles.label}>{t("password")}</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#999"
+          value={password}
+          onChangeText={handlePasswordChange}
+          secureTextEntry
+        />
+        <Pressable
+          onPress={handleSignIn}
+          disabled={!isValid}
+          style={isValid ? styles.signInEnabled : styles.signInDisabled}
+        >
+          <Text style={styles.buttonText}>{t("sign_in")}</Text>
+        </Pressable>
+        <Pressable>
+          <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
+            {t("forgot_password")}
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => {
+            navigation.navigate("Change Language", {});
+          }}
+        >
+          <View style={styles.languageContainer}>
+            <Ionicons name="globe" size={18} color="black" />
+            <Text>{"Change Language"}</Text>
+          </View>
+        </Pressable>
+        {error ? <Text style={styles.error}>{error}</Text> : null}
+      </View>
     </View>
   );
 };
@@ -194,14 +196,14 @@ export const SignIn = ({ navigation }: SignInProps) => {
 const styles = StyleSheet.create({
   signInEnabled: {
     backgroundColor: "#007AFF",
-    borderRadius: 5,
+    borderRadius: 9,
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   signInDisabled: {
     backgroundColor: "#999",
-    borderRadius: 5,
+    borderRadius: 9,
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -251,5 +253,9 @@ const styles = StyleSheet.create({
   error: {
     color: "red",
     marginTop: 20,
+  },
+  viewport: {
+    flex: 1,
+    backgroundColor: "lavender",
   },
 });
