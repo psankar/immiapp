@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  ImageBackground,
   Pressable,
   StyleSheet,
   Text,
@@ -149,6 +150,17 @@ export const SignIn = ({ navigation }: SignInProps) => {
   return (
     <View style={styles.viewport}>
       <View style={styles.container}>
+        <ImageBackground
+          source={require("../../assets/logo.svg")}
+          resizeMode="contain"
+          tintColor={"violet"}
+          style={{
+            width: 100, // Adjust the width as needed
+            height: 100, // Adjust the height as needed
+            alignSelf: "center",
+            marginBottom: 80,
+          }}
+        />
         <Text style={styles.label}>{t("account_handle")}</Text>
         <TextInput
           style={styles.input}
@@ -175,11 +187,10 @@ export const SignIn = ({ navigation }: SignInProps) => {
         >
           <Text style={styles.buttonText}>{t("sign_in")}</Text>
         </Pressable>
-        <Pressable>
-          <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
-            {t("forgot_password")}
-          </Text>
-        </Pressable>
+
+        <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
+          {t("forgot_password")}
+        </Text>
         <Pressable
           onPress={() => {
             navigation.navigate("Change Language", {});
