@@ -142,7 +142,7 @@ export const SignIn = ({ navigation }: SignInProps) => {
 
   if (isWaiting) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={css.loadingContainer}>
         <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
