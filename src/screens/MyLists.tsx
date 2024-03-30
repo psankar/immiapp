@@ -61,6 +61,7 @@ export const MyLists = ({ navigation }: MyListsProps) => {
   }) => (
     <View style={styles.listItem}>
       <Pressable
+        style={{ flex: 8, justifyContent: "center" }}
         onPress={() =>
           navigation.navigate(t("list_timeline"), {
             listId: item.id,
@@ -68,18 +69,20 @@ export const MyLists = ({ navigation }: MyListsProps) => {
           })
         }
       >
-        <Text style={styles.listItemText}>{item.display_name}</Text>
+        <Text style={[styles.listItemText]}>{item.display_name}</Text>
       </Pressable>
-      <Pressable
-        onPress={() =>
-          navigation.navigate(t("list_manage"), {
-            listId: item.id,
-            displayName: item.display_name,
-          })
-        }
-      >
-        <Ionicons name="settings" size={24} color="black" />
-      </Pressable>
+      <View style={{ flex: 1, alignItems: "flex-end" }}>
+        <Pressable
+          onPress={() =>
+            navigation.navigate(t("list_manage"), {
+              listId: item.id,
+              displayName: item.display_name,
+            })
+          }
+        >
+          <Ionicons name="settings" size={24} color="black" />
+        </Pressable>
+      </View>
     </View>
   );
 
@@ -118,6 +121,9 @@ export const MyLists = ({ navigation }: MyListsProps) => {
     <View style={css.viewport}>
       <View style={styles.container}>
         <MyListsActions navigation={navigation} />
+        <Text style={[css.label, { textAlign: "center", paddingBottom: 10 }]}>
+          {t("my_lists")}
+        </Text>
         <FlatList
           data={lists}
           renderItem={renderItem}
@@ -149,6 +155,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     flexDirection: "row",
+    padding: 10,
   },
   listItemText: {
     fontSize: 18,

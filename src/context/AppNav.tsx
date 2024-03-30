@@ -29,7 +29,11 @@ export const AppNav = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {isLoggedIn ? (
-          <Stack.Screen name={t("my_lists")} component={MyLists} />
+          <Stack.Screen
+            name={t("my_lists")}
+            component={MyLists}
+            options={{ headerShown: false }}
+          />
         ) : (
           <Stack.Screen
             name={t("sign_in")}
