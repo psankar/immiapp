@@ -18,6 +18,7 @@ import {
 } from "../constants/global-constants";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
 import t from "../localization/i18n";
+import css from "../css/css";
 
 type SignInProps = {
   navigation: NavigationProp<Record<string, object>>;
@@ -148,31 +149,31 @@ export const SignIn = ({ navigation }: SignInProps) => {
   }
 
   return (
-    <View style={styles.viewport}>
+    <View style={css.viewport}>
       <View style={styles.container}>
         <ImageBackground
           source={require("../../assets/logo.svg")}
           resizeMode="contain"
           tintColor={"violet"}
           style={{
-            width: 100, // Adjust the width as needed
-            height: 100, // Adjust the height as needed
+            width: 100,
+            height: 100,
             alignSelf: "center",
             marginBottom: 80,
           }}
         />
-        <Text style={styles.label}>{t("account_handle")}</Text>
+        <Text style={css.label}>{t("account_handle")}</Text>
         <TextInput
-          style={styles.input}
+          style={css.input}
           placeholder="handle1"
           placeholderTextColor="#999"
           value={accountHandle}
           onChangeText={(text) => onAccountHandleChange(text)}
           autoCapitalize="none"
         />
-        <Text style={styles.label}>{t("password")}</Text>
+        <Text style={css.label}>{t("password")}</Text>
         <TextInput
-          style={styles.input}
+          style={css.input}
           placeholder="Password"
           placeholderTextColor="#999"
           value={password}
@@ -183,9 +184,9 @@ export const SignIn = ({ navigation }: SignInProps) => {
         <Pressable
           onPress={handleSignIn}
           disabled={!isValid}
-          style={isValid ? styles.signInEnabled : styles.signInDisabled}
+          style={isValid ? css.btnPrimaryEnabled : css.btnPrimaryDisabled}
         >
-          <Text style={styles.buttonText}>{t("sign_in")}</Text>
+          <Text style={css.btnText}>{t("sign_in")}</Text>
         </Pressable>
 
         <Text style={styles.forgotPassword} onPress={handleForgotPassword}>
@@ -201,32 +202,13 @@ export const SignIn = ({ navigation }: SignInProps) => {
             <Text>{"Change Language"}</Text>
           </View>
         </Pressable>
-        {error ? <Text style={styles.error}>{error}</Text> : null}
+        {error ? <Text style={css.error}>{error}</Text> : null}
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  signInEnabled: {
-    backgroundColor: "darkviolet",
-    borderRadius: 9,
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  signInDisabled: {
-    backgroundColor: "#999",
-    borderRadius: 9,
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -235,42 +217,15 @@ const styles = StyleSheet.create({
     padding: 60,
     minWidth: "70%",
   },
-  label: {
-    fontSize: 12,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   languageContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
   },
-  input: {
-    flex: 1,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    padding: 20,
-    borderRadius: 12,
-    maxHeight: 40,
-    marginBottom: 20,
-  },
   forgotPassword: {
     marginTop: 20,
     color: "blue",
     textDecorationLine: "underline",
-  },
-  error: {
-    color: "red",
-    marginTop: 20,
-  },
-  viewport: {
-    flex: 1,
-    backgroundColor: "lavender",
   },
 });
