@@ -55,11 +55,10 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
           const text = decoder.decode(value, { stream: true });
           const newData = JSON.parse(text);
           if (newData && newData.length > 0) {
-            const l = [...newData, ...immiInfos];
-            immiInfos = l;
+            setImmiInfos((prevImmiInfos) => [...newData, ...prevImmiInfos]);
           }
-          // console.debug(immiInfos, newData);
-          setImmiInfos(immiInfos);
+          // console.log("existing infos", immiInfos);
+          // console.log("new data", newData);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
