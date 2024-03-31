@@ -6,6 +6,7 @@ import BASE_URL from "../config";
 import { formatDate } from "../constants/global-constants";
 import { AuthContext, AuthContextType, saxios } from "../context/AuthContext";
 import t from "../localization/i18n";
+import css from "../css/css";
 
 // TODO: Use more precise types below
 type ListTimelineProps = {
@@ -79,53 +80,76 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
     return (
       <View style={styles.immiContainer}>
         {immiInfo.repeater_handle ? (
-          <Text style={styles.immiBody}>
+          <Text style={css.label}>
             {t("repeated_by") + " " + immiInfo.repeater_handle}
           </Text>
         ) : null}
-        <Text style={styles.immiBody}>{"@" + immiInfo.account_handle}</Text>
+
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={[css.label, { paddingBottom: 3 }]}>
+            {"@" + immiInfo.account_handle}
+          </Text>
+          <Text style={styles.immiTime}>{formatDate(date)}</Text>
+        </View>
+
         <Text style={styles.immiBody}>{immiInfo.body}</Text>
-        <Text style={styles.immiTime}>{formatDate(date)}</Text>
-        <MaterialCommunityIcons
-          name="reply"
-          size={22}
-          color="black"
-          onPress={() => {
-            navigation.navigate(t("compose"), {
-              inReplyTo: immiInfo.immi_id,
-              inReplyToBody: immiInfo.body,
-              inReplyToAccount: immiInfo.account_handle,
-            });
-          }}
-        />
-        <Text>{immiInfo.reply_count > 0 ? immiInfo.reply_count : ""}</Text>
-        <Ionicons
-          name="repeat"
-          size={22}
-          color={immiInfo.is_repeated_by_me ? "blue" : "black"}
-          onPress={() => {
-            saxios.post("/repeat-immi/" + immiInfo.immi_id);
-          }}
-        />
-        <Text>
-          {immiInfo.repeated_count > 0 ? immiInfo.repeated_count : ""}
-        </Text>
+
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+            <MaterialCommunityIcons
+              name="reply"
+              size={22}
+              color="black"
+              onPress={() => {
+                navigation.navigate(t("compose"), {
+                  inReplyTo: immiInfo.immi_id,
+                  inReplyToBody: immiInfo.body,
+                  inReplyToAccount: immiInfo.account_handle,
+                });
+              }}
+            />
+            <Text>{immiInfo.reply_count > 0 ? immiInfo.reply_count : ""}</Text>
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons
+              name="repeat"
+              size={22}
+              color={immiInfo.is_repeated_by_me ? "blue" : "black"}
+              onPress={() => {
+                saxios.post("/repeat-immi/" + immiInfo.immi_id);
+              }}
+            />
+            <Text>
+              {immiInfo.repeated_count > 0 ? immiInfo.repeated_count : ""}
+            </Text>
+          </View>
+        </View>
       </View>
     );
   };
 
   return (
-    <View>
-      <FlatList
-        data={immiInfos}
-        renderItem={renderImmi}
-        keyExtractor={(item) => item.item}
-      />
+    <View style={css.viewport}>
+      <View style={styles.container}>
+        <FlatList
+          data={immiInfos}
+          renderItem={renderImmi}
+          keyExtractor={(item) => item.item}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignSelf: "center",
+    minWidth: "70%",
+    padding: 20,
+  },
   immiContainer: {
     padding: 10,
     borderBottomWidth: 1,
@@ -134,9 +158,10 @@ const styles = StyleSheet.create({
   immiBody: {
     fontSize: 16,
     marginBottom: 5,
+    paddingBottom: 10,
   },
   immiTime: {
-    fontSize: 12,
+    fontSize: 10,
     color: "#666",
   },
 });
