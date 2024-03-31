@@ -58,7 +58,7 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
             const l = [...newData, ...immiInfos];
             immiInfos = l;
           }
-          console.debug(immiInfos, newData);
+          // console.debug(immiInfos, newData);
           setImmiInfos(immiInfos);
         }
       } catch (error) {
@@ -117,8 +117,14 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
             size={18}
             color="blue"
             onPress={() => {
-              saxios.post("/unrepeat-immi/" + immiInfo.immi_id).then(() => {
-                immiInfo.is_repeated_by_me = false;
+              saxios.post("/repeat-immi-undo/" + immiInfo.immi_id).then(() => {
+                setImmiInfos((prevImmiInfos) =>
+                  prevImmiInfos.map((info) =>
+                    info.immi_id === immiInfo.immi_id
+                      ? { ...info, is_repeated_by_me: false }
+                      : info
+                  )
+                );
               });
             }}
           />
@@ -136,7 +142,13 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
             color={"black"}
             onPress={() => {
               saxios.post("/repeat-immi/" + immiInfo.immi_id).then(() => {
-                immiInfo.is_repeated_by_me = true;
+                setImmiInfos((prevImmiInfos) =>
+                  prevImmiInfos.map((info) =>
+                    info.immi_id === immiInfo.immi_id
+                      ? { ...info, is_repeated_by_me: true }
+                      : info
+                  )
+                );
               });
             }}
           />
@@ -190,7 +202,7 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
         <FlatList
           data={immiInfos}
           renderItem={renderImmi}
-          keyExtractor={(item) => item.item}
+          keyExtractor={(item) => item.immi_id.toString()}
         />
       </View>
     </View>
