@@ -73,6 +73,81 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
     };
   }, []);
 
+  const renderImmiReactions = (immiInfo: any) => {
+    return (
+      <>
+        <Ionicons
+          name="add"
+          size={18}
+          onPress={() => {
+            console.log("add reactions");
+          }}
+        />
+        <Text>{immiInfo.like_count > 0 ? immiInfo.like_count : ""}</Text>
+      </>
+    );
+  };
+
+  const renderImmiReply = (immiInfo: any) => {
+    return (
+      <>
+        <MaterialCommunityIcons
+          name="reply-outline"
+          size={18}
+          color="black"
+          onPress={() => {
+            navigation.navigate(t("compose"), {
+              inReplyTo: immiInfo.immi_id,
+              inReplyToBody: immiInfo.body,
+              inReplyToAccount: immiInfo.account_handle,
+            });
+          }}
+        />
+        <Text>{immiInfo.reply_count > 0 ? immiInfo.reply_count : ""}</Text>
+      </>
+    );
+  };
+
+  const renderImmiRepeat = (immiInfo: any) => {
+    if (immiInfo.is_repeated_by_me) {
+      return (
+        <>
+          <Ionicons
+            name="megaphone"
+            size={18}
+            color="blue"
+            onPress={() => {
+              saxios.post("/unrepeat-immi/" + immiInfo.immi_id).then(() => {
+                immiInfo.is_repeated_by_me = false;
+              });
+            }}
+          />
+          <Text>
+            {immiInfo.repeated_count > 0 ? immiInfo.repeated_count : ""}
+          </Text>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Ionicons
+            name="megaphone-outline"
+            size={18}
+            color={"black"}
+            onPress={() => {
+              saxios.post("/repeat-immi/" + immiInfo.immi_id).then(() => {
+                immiInfo.is_repeated_by_me = true;
+              });
+            }}
+          />
+          <Text>
+            {immiInfo.repeated_count > 0 ? immiInfo.repeated_count : ""}
+          </Text>
+        </>
+      );
+    }
+  };
+
   const renderImmi = (items: any) => {
     var immiInfo = items.item;
     var date = new Date(immiInfo.time);
@@ -96,32 +171,13 @@ const ListTimeline = ({ route, navigation }: ListTimelineProps) => {
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
-            <MaterialCommunityIcons
-              name="reply"
-              size={22}
-              color="black"
-              onPress={() => {
-                navigation.navigate(t("compose"), {
-                  inReplyTo: immiInfo.immi_id,
-                  inReplyToBody: immiInfo.body,
-                  inReplyToAccount: immiInfo.account_handle,
-                });
-              }}
-            />
-            <Text>{immiInfo.reply_count > 0 ? immiInfo.reply_count : ""}</Text>
+            {renderImmiReply(immiInfo)}
           </View>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Ionicons
-              name="repeat"
-              size={22}
-              color={immiInfo.is_repeated_by_me ? "blue" : "black"}
-              onPress={() => {
-                saxios.post("/repeat-immi/" + immiInfo.immi_id);
-              }}
-            />
-            <Text>
-              {immiInfo.repeated_count > 0 ? immiInfo.repeated_count : ""}
-            </Text>
+            {renderImmiRepeat(immiInfo)}
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            {renderImmiReactions(immiInfo)}
           </View>
         </View>
       </View>
